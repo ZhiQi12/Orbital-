@@ -8,7 +8,7 @@ from requests import post
 from textblob import TextBlob
 from nltk.sentiment import SentimentIntensityAnalyzer
 
-
+#pd.set_option("display.max_columns", 100)
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -27,8 +27,8 @@ def get_subredditInfo(subreddit):
     print(subreddit.description)
 
 # Scrape functions
-def find_top_five(subreddit):
-    for post in subreddit.hot(limit=5):
+def find_top_2(subreddit):
+    for post in subreddit.hot(limit=2):
         print("Title = "+ post.title)
         print("Full Post = " + post.selftext)
         print("Number of Upvotes = " , post.score)
@@ -61,6 +61,7 @@ def testing(subreddit):
 keywords = ["mods", "modules"]
 modList = ["CS", "BT", "GE", "IS"]  #May need the prefix of all mods?
 
+
 # Filtering function
 def filterPost(dict, word, postID, dictKey):
     if postID not in dict[dictKey]:
@@ -69,8 +70,23 @@ def filterPost(dict, word, postID, dictKey):
 
     return False
 
+# # Display posts' info
+# def displayPostInfo(post, dict):
+#     # dict = {"Title": [], "Post Text": [], "Score": [],
+#     #           "Total Comments": [], "Post URL": [], "Time Posted": [], "ID": []
+#     #         }
+#     dict["Title"].append(post.title)
+#     dict["Post Text"].append(post.selftext)
+#     dict["Score"].append(post.score)
+#     dict["Total Comments"].append(post.num_comments)
+#     dict["Post URL"].append(post.url)
+#     dict["Time Posted"].append(datetime.datetime.fromtimestamp(post.created))
+#     dict["ID"].append(post.id)
+    
+#     return dict
 
-# Scraping posts while filtering for mods , returns a dataFrame
+
+# Scraping posts while filtering for mods , returns a dataFrame with posts info
 def scrapeModPosts(subreddit, limitNum):
     #posts = subreddit.top("month")
     
@@ -99,6 +115,21 @@ def scrapeModPosts(subreddit, limitNum):
     top_posts = pd.DataFrame(modPosts_dict)
     return top_posts
 
+# Scraping posts while filtering for mods , returns a dataFrame with post objects
+def scrapeModPosts2(subreddit, limitNum):
+    dict = {"ID": [], "Title": [], "Post Object": []
+    }
+    for post in subreddit.hot(limit=limitNum):
+
+        for word in post.title.split(" "):  #for each word in the post title(its type is list)
+            if filterPost(dict, word, post.id, "ID"):
+                dict["Title"].append(post.title)
+                dict["ID"].append(post.id)
+                dict["Post Object"].append(post) 
+    
+    df = pd.DataFrame(dict)
+    return df
+
 # Function to get comments of a post
 def getComments(post):
     commentsDict = {"Comment Text": [], "Comment ID": [], "Comment Score": [], "Time Posted": []
@@ -112,16 +143,8 @@ def getComments(post):
     
     comments = pd.DataFrame(commentsDict)
     return comments
-    
 
 # Function to check module name/wildcard 
-
-# def checkMods(modList, word):
-#     for mod in modList:
-#         modString = mod + ".+"
-#         if bool(re.search(modString, word)):
-#             return True
-#     return False
 
 def checkMods(modList, word):
     for mod in modList:
@@ -133,38 +156,11 @@ def checkMods(modList, word):
             continue
     return False
 
-# Function for sentiment analysis (TextBlob -> pre trained)
-def sentimentAnalysis(string):
-    blob = TextBlob(string)
-    sentiment = blob.sentiment.polarity
-    return sentiment
 
-# Function to scrape posts and give sentiment score based on title 
-def postSentiment(subreddit, limitNum, analysisFunc):
-    modPosts_dict = {"Title": [], "Post Text": [], "Score": [], "ID":[],
-              "Sentimental Score": [], "Post URL": []
-              }
-    for post in subreddit.hot(limit=limitNum):
-        for word in post.title.split(" "):  #for each word in the post title(its type is list)
-            if filterPost(modPosts_dict, word, post.id, "ID"):
-                
-                sentiment = analysisFunc(post.selftext)
-
-                modPosts_dict["Title"].append(post.title)
-                modPosts_dict["Post Text"].append(post.selftext)
-                modPosts_dict["Score"].append(post.score)
-                modPosts_dict["Sentimental Score"].append(sentiment)
-                modPosts_dict["Post URL"].append(post.url)
-                modPosts_dict["ID"].append(post.id)
-
-    posts = pd.DataFrame(modPosts_dict)
-    return posts
 
 # Main function
 if __name__ == "__main__":
-    #find_top_five(nus_sub)
-    #print(scrapeModPosts(nus_sub, 200))
-    print(postSentiment(nus_sub, 200, sentimentAnalysis))
+     print(scrapeModPosts(nus_sub, 200))
+    
 
-    
-    
+
