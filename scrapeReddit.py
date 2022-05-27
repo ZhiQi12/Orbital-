@@ -8,7 +8,7 @@ from requests import post
 from textblob import TextBlob
 from nltk.sentiment import SentimentIntensityAnalyzer
 
-#pd.set_option("display.max_columns", 100)
+pd.set_option("display.max_columns", 100)
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
