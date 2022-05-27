@@ -1,24 +1,32 @@
-# MODeRate (Orbital)
+# MODeRATE 
 
-Webapp which generates sentimental score of NUS modules based on reviews scraped from Reddit and NUSMODS
+MODeRATE is a web app which generates sentimental score for NUS modules based on reviews scraped from Reddit and NUSMODS. 
 
-## Description
+## Description 
 
-An in-depth paragraph about your project and overview of use.
+MODeRATE is a web application which consists of web scraping and sentimental analysis components. Web scraping involves extracting information from a website. Sentimental analysis involves the use of algorithms to classify text to determine whether data is positive, negative or neutral. 
+
+In this project, information such as reviews and comments are scraped from Reddit and NUSMODS. They are analysed by a custom made model which is trained on Reddit and NUSMODS datasets. The model produces a sentimental score for each review parsed into it. Factors that affect the sentimental score include date of post, number of upvotes, etc. This refines the sentimental score based on real time data.  
+ 
 
 ## Getting Started
 
 ### Dependencies
 
-* python 3.9+
+* Python 3.9+
 * Google Chrome
+
+### Libraries
+
+* Selenium
+* BeautifulSoup
+* Pandas
+* NLTK
+* Time
+* Django 
 
 ### Installing
 * Create and activate virtual environment
-```
-python -m venv venv
-./venv/Scripts/activate
-```
 
 * Install Python Dependencies
 ```
@@ -37,7 +45,7 @@ python main.py
 
 ## Authors
 
-Contributors names and contact info
+Contributors names
 
-* Chew Zhi Qi
+* Chew Zhi Qi 
 * Foo Yan Rong
