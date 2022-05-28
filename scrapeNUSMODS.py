@@ -39,7 +39,7 @@ def findMod(module):
     #check if the mod exists by checking if the page has 404 error shown
     try:
         # Error shown, 404 (no mods)
-        WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="app"]/div/div[1]/main/div/p')))
+        WebDriverWait(browser, 3).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="app"]/div/div[1]/main/div/p')))
         print("mod does not exist")
         return False
         
@@ -56,7 +56,7 @@ def checkReviewCount(browser):
 
     #WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="app"]/div/div[1]/main/div/div/aside/div[2]/div/nav/ul/li[4]/a/span/span[2]')))
     value = browser.find_element(by=By.XPATH, value='//*[@id="app"]/div/div[1]/main/div/div/aside/div[2]/div/nav/ul/li[4]/a/span/span[2]').text
-    print(int(value))
+    #print(int(value))
     if int(value) > 0:
         return True
     else:
@@ -72,16 +72,35 @@ def scrapeReviews(browser):
         if checkReviewCount(browser):
             iframe = browser.find_elements(by=By.TAG_NAME, value='iframe')
             browser.switch_to.frame(iframe[0])
-            time.sleep(5)
+            #browser.implicitly_wait(10)
             posts = browser.find_elements(by=By.CLASS_NAME, value='post')
+            #print(len(posts))
             postList = []
-            for post in posts:
-                postMsg = post.find_element(by=By.CLASS_NAME, value='post-message')
-                postList.append(postMsg.text)
+            counter=1
+            for post in posts:  
+                browser.implicitly_wait(10)
+                print(counter)        
+                counter += 1   
+                try:
+                    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'see-more')))
+                    seeMore = post.find_element(by=By.CLASS_NAME, value='see-more')
+                    seeMore.click()
+                    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'post-message')))
+                    postMsg = post.find_element(by=By.CLASS_NAME, value='post-message')
+
+                    postList.append(postMsg.text)
+                    #print(postMsg.text)
+                except:
+                    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'post-message')))
+                    postMsg = post.find_element(by=By.CLASS_NAME, value='post-message')
+                    postList.append(postMsg.text) 
+                    #print(postMsg.text)
+
+               
         else:
             return None
         
-        return pd.DataFrame(postList)
+        return (postList)
 
 if __name__ == '__main__':
     browser = findMod("CS1010s")

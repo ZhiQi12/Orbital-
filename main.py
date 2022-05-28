@@ -6,5 +6,5 @@ from scrapeNUSMODS import *
     #find_top_five(nus_sub)
     #print(scrapeModPosts(nus_sub, 200))
     #print(postSentiment(nus_sub, 200, sentAnalysis))
-browser = findMod("CS1050")
+browser = findMod("CS1010s")
 print(scrapeReviews(browser))
