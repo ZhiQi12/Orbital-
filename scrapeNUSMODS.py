@@ -6,17 +6,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 import time
 import pandas as pd
 
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.support import expected_conditions
 
 # Setting up browser
 website = 'https://nusmods.com/modules?sem[0]=1&sem[1]=2&sem[2]=3&sem[3]=4'
-
-# s = Service('.\chromedriver')
-# opt = webdriver.ChromeOptions()
-
-# # Configuring to remove usb warning
-# opt.add_experimental_option('excludeSwitches', ['enable-logging'])
-
-# driver = webdriver.Chrome(service=s, options=opt)
 
 # Setting up browser
 def getBrowser():
@@ -56,7 +51,7 @@ def checkReviewCount(browser):
 
     #WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="app"]/div/div[1]/main/div/div/aside/div[2]/div/nav/ul/li[4]/a/span/span[2]')))
     value = browser.find_element(by=By.XPATH, value='//*[@id="app"]/div/div[1]/main/div/div/aside/div[2]/div/nav/ul/li[4]/a/span/span[2]').text
-    #print(int(value))
+    print(int(value))
     if int(value) > 0:
         return True
     else:
@@ -70,37 +65,40 @@ def scrapeReviews(browser):
     else:
         # if reviews > 0
         if checkReviewCount(browser):
-            iframe = browser.find_elements(by=By.TAG_NAME, value='iframe')
+            
+            iframe = browser.find_elements(by=By.TAG_NAME, value='iframe')         
             browser.switch_to.frame(iframe[0])
-            #browser.implicitly_wait(10)
+            browser.implicitly_wait(5)
             posts = browser.find_elements(by=By.CLASS_NAME, value='post')
-            #print(len(posts))
+            print(len(posts))
             postList = []
             counter=1
             for post in posts:  
-                browser.implicitly_wait(10)
-                print(counter)        
-                counter += 1   
+                browser.implicitly_wait(5)
+
                 try:
-                    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'see-more')))
+                    #print("try")
+                    WebDriverWait(post, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'see-more')))
                     seeMore = post.find_element(by=By.CLASS_NAME, value='see-more')
                     seeMore.click()
-                    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'post-message')))
-                    postMsg = post.find_element(by=By.CLASS_NAME, value='post-message')
-
-                    postList.append(postMsg.text)
-                    #print(postMsg.text)
                 except:
-                    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'post-message')))
+                    #Eprint("except")
+                    #print("no see-more option")
+                    
+                    continue
+                finally:
+                    browser.implicitly_wait(5)
+                    #print("finally")
+                    WebDriverWait(post, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'post-message')))
+                    browser.implicitly_wait(3)
                     postMsg = post.find_element(by=By.CLASS_NAME, value='post-message')
                     postList.append(postMsg.text) 
-                    #print(postMsg.text)
-
-               
+                counter +=1
         else:
             return None
         
         return (postList)
+
 
 if __name__ == '__main__':
     browser = findMod("CS1010s")

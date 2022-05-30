@@ -1,6 +1,8 @@
+## Level of Achievement: Apollo 11
+
 # MODeRATE 
 
-MODeRATE is a web app which generates sentimental score for NUS modules based on reviews scraped from Reddit and NUSMODS. 
+MODeRATE is a web app which generates sentimental scores for NUS modules based on reviews scraped from Reddit and NUSMODS. 
 
 ## Description 
 
@@ -26,7 +28,7 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 * Allows user to input a module code 
 * Returns a sentimental score of the module
 * Provide the most relevant reviews for students to view 
-* Datebase to store the sentimental scores and most relevant reviews
+* Database to store the sentimental scores and most relevant reviews
 
 ## Getting Started
 
@@ -55,12 +57,6 @@ pip install -r requirements.txt
 * Unzip and place driver in project's root directory
 	* [Link to Chrome Driver Download (Select based on chrome version)](https://chromedriver.chromium.org/downloads)
 
-
-### Executing program
-* Run main script
-```
-python main.py
-```
 
 ## Authors
 

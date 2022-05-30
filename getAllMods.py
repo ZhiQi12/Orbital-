@@ -95,6 +95,6 @@ if __name__ == '__main__':
 
     # Find last page number
     lastPageNum = getMaxPages()
-    print(lastPageNum)
+    #print(lastPageNum)
     # Loop through to get all mods
-    getModList(int(lastPageNum))
+    getModList(int(10))
