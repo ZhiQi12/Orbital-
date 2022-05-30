@@ -98,3 +98,4 @@ if __name__ == '__main__':
     #print(lastPageNum)
     # Loop through to get all mods
     getModList(int(10))
+    getModList(int(lastPageNum))
