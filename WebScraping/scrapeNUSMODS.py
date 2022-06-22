@@ -65,35 +65,41 @@ def scrapeReviews(browser):
     else:
         # if reviews > 0
         if checkReviewCount(browser):
-            
             iframe = browser.find_elements(by=By.TAG_NAME, value='iframe')         
             browser.switch_to.frame(iframe[0])
-            browser.implicitly_wait(5)
-            posts = browser.find_elements(by=By.CLASS_NAME, value='post')
-            print(len(posts))
-            postList = []
-            counter=1
-            for post in posts:  
-                browser.implicitly_wait(5)
+            #browser.implicitly_wait(5)
+            WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'post')))
 
+            posts = browser.find_elements(by=By.CLASS_NAME, value='post')
+            #print(dateOfPost.text)
+            postList = []
+            ignored_exceptions=(NoSuchElementException,StaleElementReferenceException)
+            counter = 1
+            for post in posts: 
+                browser.implicitly_wait(3)
+                dateOfPost = browser.find_elements(EC.presence_of_all_elements_located((By.CLASS_NAME, 'time-ago')))
+                #print(dateOfPost.text)
+                #WebDriverWait()
                 try:
                     #print("try")
-                    WebDriverWait(post, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'see-more')))
+                    WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'see-more')))
                     seeMore = post.find_element(by=By.CLASS_NAME, value='see-more')
                     seeMore.click()
+                    browser.implicitly_wait(3)
                 except:
                     #Eprint("except")
-                    #print("no see-more option")
+                    print("no see-more option")
+                    print(counter)
                     
                     continue
                 finally:
-                    browser.implicitly_wait(5)
+                    counter += 1
+                    #browser.implicitly_wait(5)
                     #print("finally")
-                    WebDriverWait(post, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'post-message')))
-                    browser.implicitly_wait(3)
+                    WebDriverWait(browser, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.CLASS_NAME, 'post-message')))
+                    #browser.implicitly_wait(3)
                     postMsg = post.find_element(by=By.CLASS_NAME, value='post-message')
                     postList.append(postMsg.text) 
-                counter +=1
         else:
             return None
         
@@ -101,5 +107,5 @@ def scrapeReviews(browser):
 
 
 if __name__ == '__main__':
-    browser = findMod("CS1010s")
+    browser = findMod("cs1010")
     print(scrapeReviews(browser))
