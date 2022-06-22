@@ -146,5 +146,5 @@ if __name__ == "__main__":
     #clearCSV()
     #print(scrape_n_posts("cs2030", 5))
     #print(scrape_posts("ec1101e", nus_sub, 3))
-    print(scrape_posts("cs2030", nus_sub, 2))
+    print(scrape_posts("cs1010s", nus_sub, 3))
 
