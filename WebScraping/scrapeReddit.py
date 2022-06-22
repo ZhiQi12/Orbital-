@@ -1,7 +1,6 @@
 import praw
 import pandas as pd
 import re
-from scrapeNUSMODS import *
 import time
 import csv
 
@@ -77,6 +76,7 @@ def check_date(post):
 def scrape_posts(mod, subreddit, n):
     dict = {"Post Title": [], "Comments":[]}
     counter = 1
+    final = []
     #banned_words = ["telegram", "textbooks", "tele", "chats"]
     for post in subreddit.search(mod):
         
@@ -93,7 +93,9 @@ def scrape_posts(mod, subreddit, n):
                 dict["Comments"].append(comments)
        
             counter += 1
-    return dict
+    for lst in dict["Comments"]:
+        final += lst
+    return final 
 
 # Filtering posts
 def filterPost(post, banned_words, mod_name):
@@ -144,5 +146,5 @@ if __name__ == "__main__":
     #clearCSV()
     #print(scrape_n_posts("cs2030", 5))
     #print(scrape_posts("ec1101e", nus_sub, 3))
-    print(scrape_posts("cs2030", nus_sub, 1))
+    print(scrape_posts("cs2030", nus_sub, 2))
 
