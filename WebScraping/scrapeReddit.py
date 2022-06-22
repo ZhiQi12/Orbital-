@@ -1,21 +1,8 @@
-from ast import Store
-import datetime
-from tabnanny import check
-from unittest.util import three_way_cmp
-from numpy import true_divide
 import praw
 import pandas as pd
 import re
-from requests import post
-from textblob import TextBlob
-from nltk.sentiment import SentimentIntensityAnalyzer
 from scrapeNUSMODS import *
-from bs4 import BeautifulSoup
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from praw.models import MoreComments
 import time
-
 import csv
 
 
@@ -37,82 +24,7 @@ def get_subredditInfo(subreddit):
     print(subreddit.title)
     print(subreddit.description)
 
-# Scrape functions
-def find_top_2(subreddit):
-    for post in subreddit.hot(limit=2):
-        print("Title = "+ post.title)
-        print("Full Post = " + post.selftext)
-        print("Number of Upvotes = " , post.score)
-        print("Number of Comments = ", post.num_comments)
-        print()
-
-# Scrape function (using pandas) 
-def scrapeTopPosts(subreddit):
-    #posts = subreddit.top("month")
-    posts_dict = {"Title": [], "Post Text": [], "Score": [],
-              "Total Comments": [], "Post URL": [] }
-
-    for post in subreddit.hot(limit=30):  
-        posts_dict["Title"].append(post.title)
-        posts_dict["Post Text"].append(post.selftext)
-        posts_dict["Score"].append(post.score)
-        posts_dict["Total Comments"].append(post.num_comments)
-        posts_dict["Post URL"].append(post.url)
-
-    top_posts = pd.DataFrame(posts_dict)
-    return top_posts
-
-
-keywords = ["mods", "modules"]
-modList = ["CS", "BT", "GE", "IS"]  #May need the prefix of all mods?
-
-
-# Scraping posts while filtering for mods , returns a dataFrame with posts info
-def scrapeModPosts(subreddit, limitNum):
-    #posts = subreddit.top("month")
-    
-    modPosts_dict = {"Title": [], "Post Text": [], "Score": [],
-              "Total Comments": [], "Post URL": [], "Time Posted": [], "ID": []
-              }
-
-    for post in subreddit.hot(limit=limitNum):
-
-            for word in post.title.split(" "):  #for each word in the post title(its type is list)
-                # if post.id not in modPosts_dict["ID"]:
-
-                #     if word in keywords or checkMods(modList, word):
-                if filterPost(modPosts_dict, word, post.id, "ID"):
-
-                    modPosts_dict["Title"].append(post.title)
-                    modPosts_dict["Post Text"].append(post.selftext)
-                    modPosts_dict["Score"].append(post.score)
-                    modPosts_dict["Total Comments"].append(post.num_comments)
-                    modPosts_dict["Post URL"].append(post.url)
-                    modPosts_dict["Time Posted"].append(datetime.datetime.fromtimestamp(post.created))
-                    modPosts_dict["ID"].append(post.id)
-
-                    #print(getComments(post)) #comments 
-        
-    top_posts = pd.DataFrame(modPosts_dict)
-    return top_posts
-
-# Scraping posts while filtering for mods , returns a dataFrame with post objects
-def scrapeModPosts2(subreddit, limitNum):
-    dict = {"ID": [], "Title": [], "Post Object": []
-    }
-    for post in subreddit.hot(limit=limitNum):
-
-        for word in post.title.split(" "):  #for each word in the post title(its type is list)
-            if filterPost(dict, word, post.id, "ID"):
-                dict["Title"].append(post.title)
-                dict["ID"].append(post.id)
-                dict["Post Object"].append(post) 
-    
-    df = pd.DataFrame(dict)
-    return df
-
 # Function to check module name/wildcard 
-
 def checkMods(modList, word):
     for mod in modList:
         modString = mod + "...."
@@ -135,8 +47,6 @@ def clearCSV():
     f = open('./comments.csv', 'w+')
     f.close()
 
-def getCommentList(comments):
-    addCommentsToCSV(comments)
 ###################################################################################################################################################
 banned_words = ["telegram", "textbook","textbooks", "tele", "chats","grp", "group","chat","modreg", "internship", "friends", "notes", "bid", "bidding"]
 banned_words_for_comments = ["thank", "thanks", "?", "thx"]
@@ -149,7 +59,6 @@ banned_words_for_comments = ["thank", "thanks", "?", "thx"]
     # 3) check if title got module name
     # 4) Comments: question mark, "thank you", less than 7 
     # 5) Post selftext: "bid"
-    # 
 
 def check_date(post): 
     date_posted = post.created_utc  # date posted
@@ -235,5 +144,5 @@ if __name__ == "__main__":
     #clearCSV()
     #print(scrape_n_posts("cs2030", 5))
     #print(scrape_posts("ec1101e", nus_sub, 3))
-    print(scrape_posts("cs2030", nus_sub, 3))
+    print(scrape_posts("cs2030", nus_sub, 1))
 

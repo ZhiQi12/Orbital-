@@ -76,8 +76,8 @@ def scrapeReviews(browser):
             ignored_exceptions=(NoSuchElementException,StaleElementReferenceException)
             counter = 1
             for post in posts: 
-                browser.implicitly_wait(3)
-                dateOfPost = browser.find_elements(EC.presence_of_all_elements_located((By.CLASS_NAME, 'time-ago')))
+                #dateOfPost = browser.find_elements(EC.presence_of_all_elements_located((By.CLASS_NAME, 'time-ago')))
+                
                 #print(dateOfPost.text)
                 #WebDriverWait()
                 try:
