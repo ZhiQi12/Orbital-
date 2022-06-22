@@ -10,49 +10,24 @@ import pandas as pd
 import pickle
 import spacy
 import string
+import praw
+import re
+import time
+import csv
+from WebScraping import scrapeReddit
 
 
+CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
+CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
+USER_AGENT = "Orbital"
+
+# Reddit Instance
+reddit_read = praw.Reddit(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, user_agent=USER_AGENT)
+
+# Subreddits
+nus_sub = reddit_read.subreddit("nus")
 def scrape_n_posts(mod, n):
-    PATH = "C:/Users/Yan Rong/Documents/programming/Orbital/testsite/chromedriver.exe"
-    option = Options()
-    option.add_argument("--disable-infobars")
-    option.add_argument("start-maximized")
-    option.add_argument("--disable-extensions")
-
-    option.add_experimental_option(
-    "prefs", {"profile.default_content_setting_values.notifications": 1}
-)
-    driver = webdriver.Chrome(options = option, executable_path = PATH)
-    driver.get("https://www.reddit.com/r/nus/")
-    search = driver.find_element_by_id("header-search-bar")
-    search.send_keys(mod)
-    time.sleep(3)
-    search.send_keys(Keys.RETURN)
-
-    result = []
-    scale = 0
-    inturl = driver.current_url
-    while scale < n:
-        try:
-            main = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='QBfRw7Rj8UkxybFpX-USO']")))
-        except:
-            driver.close()
-            return ["Error"]
-        links = main.find_elements(By.XPATH,f'//a[contains(@href,"{mod.lower()}")]')
-        links[scale].click()
-        #driver.switch_to.window(driver.window_handles[1])
-        url = driver.current_url
-        driver.get(url)
-        html =  BeautifulSoup(driver.page_source, "html.parser")
-        comments = html.find_all("p",{"class":"_1qeIAgB0cPwnLhDF9XSiJM"})
-        for comment in comments:
-            result.append(comment.text)
-        #driver.close()
-        #driver.switch_to.window(driver.window_handles[0])
-        scale += 1
-        driver.get(inturl)
-    driver.close()
-    return result
+    return scrapeReddit.scrape_posts(mod, nus_sub, n) 
 
 #NLTK VADER
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
