@@ -109,6 +109,11 @@ http://127.0.0.1:8000/admin/
 8) Click on *Highest-Rated Mods* or *Most-Searched Mods* to view the respective metrics.
 9) After done using the app, CTRL-BREAK in command prompt to close it.
 
+### Flow Chart
+<img width="3190" alt="flowchart" src="https://user-images.githubusercontent.com/74350301/175825096-75fdf0ea-309a-4070-844b-d1236cca35a7.png">
+
+
+
 ## Authors
 
 Contributor names
