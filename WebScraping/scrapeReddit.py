@@ -47,7 +47,7 @@ def clearCSV():
     f.close()
 
 ###################################################################################################################################################
-banned_words = ["telegram", "textbook","textbooks", "tele", "chats","grp", "group","chat","modreg", "internship", "friends", "notes", "bid", "bidding"]
+banned_words = ["telegram", "textbook","textbooks", "tele", "chats","grp", "group","chat","modreg", "internship", "notes", "bid", "bidding"]
 banned_words_for_comments = ["thank", "thanks", "?", "thx"]
     # look at post title and filter out (telegram, textbooks, grp chats, internship, pyp, friends etc)
     # post upvote most be >= 5 and time < 3 yrs
@@ -62,40 +62,59 @@ banned_words_for_comments = ["thank", "thanks", "?", "thx"]
 def check_date(post): 
     date_posted = post.created_utc  # date posted
     today = time.time()  # today's time
+    five_months = 13148715
     two_weeks = 1209600
     three_yrs = 94608000
     diff = float(today) - float(date_posted)
     if diff >= three_yrs:
         return -1  # don't scrape
-    elif diff < two_weeks:
-        return 1   # scrape, don't need check upvote because very recent
+    elif diff <= five_months:
+        return 1   # scrape, don't need check upvote because post is recent (less than 5 months ago)
     else:
         return 0   #check upvote then can scrape
 
 
 def scrape_posts(mod, subreddit, n):
-    dict = {"Post Title": [], "Comments":[]}
+    dict = {"Post Title": [], "Comments":[], "Score":[]}
     counter = 1
-    final = []
+    top_3 = []
     #banned_words = ["telegram", "textbooks", "tele", "chats"]
     for post in subreddit.search(mod):
-        
         if counter <= n and filterPost(post, banned_words, mod):
             check_date_num = check_date(post)
-            comments = getComments(post, banned_words_for_comments)
-            if check_date_num ==  1:
-                
-                dict["Post Title"].append("RECENT " + post.title)
-                dict["Comments"].append(comments)
-            elif check_date_num == 0:
+            if check_date_num == -1 or post.num_comments == 0:  # if post is moren than 3 yrs old or got no comments, skip post
+                continue
+            else: 
+                print(post.title)
 
-                dict["Post Title"].append(post.title)
-                dict["Comments"].append(comments)
+                if check_date_num ==  1 or check_date_num == 0:
+                    commentsDict = getComments(post, banned_words_for_comments)
+                    dict["Post Title"].append(post.title)
+                    dict["Comments"].extend(commentsDict["Body"])  # all relevant comments
+                    dict["Score"].extend(commentsDict["Score"])
+                # elif check_date_num == 0 and post.score >= 5:  
+                    
+                #     dict["Post Title"].append(post.title)
+                #     dict["Comments"].append(comments)
+        
+                #top_3.extend(commentTuple[1])
        
-            counter += 1
-    for lst in dict["Comments"]:
-        final += lst
-    return final 
+                    counter += 1
+    # for lst in dict["Comments"]:
+    #     final += lst
+    
+    score_list = dict["Score"]
+    new_score_list = list(enumerate(score_list))
+    new_score_list = sorted(new_score_list, key = lambda x : x[1], reverse=True)
+    for tuple in new_score_list:
+        if len(top_3) < 3:
+            index = tuple[0]
+            top_3.append(dict["Comments"][index])
+        else:
+            break
+    print(new_score_list)
+    print(top_3)
+    return dict["Comments"]
 
 # Filtering posts
 def filterPost(post, banned_words, mod_name):
@@ -103,9 +122,9 @@ def filterPost(post, banned_words, mod_name):
     post_text = post.title + " " + post.selftext
     for word in banned_words:
         if post_text.lower().find(word) >= 0: # if can find
-            #print(word)
+            print("got banned word")
             return False
-    if post_text.find(mod_name):
+    if post_text.lower().find(mod_name.lower()) >= 0:
         return True
     else:
         print("no mod name")
@@ -120,17 +139,77 @@ def filterComment(comment, banned_words):
             return False
     return True
 
+def compareUpvotes(commentUpvote, postUpvote):
+    if postUpvote >= 10:
+        if commentUpvote >= 0.1*postUpvote:
+            return True
+        else:
+            return False
+    return True
+
 # Function to get comments of a post
 def getComments(post, banned_words):
     store = []
+    commentsDict = {"Body": [], "Date Posted":[], "Upvote":[], "Score":[]}
     post.comments.replace_more(limit=None)
+    # counter = 0
+    post_upvote = post.score
     comments = post.comments.list()
     for comment in comments:
-         # comment requirements : >=5 words, >3 upvote, 
-        if len(comment.body.split(" "))>=7 and filterComment(comment, banned_words):
+        if len(comment.body.split(" "))>=8 and filterComment(comment, banned_words):
+            score = 0
             store.append(comment.body)
-    #print(store)
-    return store
+            comment_body = comment.body
+            comment_date = comment.created_utc
+            comment_upvote = comment.score
+            commentsDict["Body"].append(comment_body)
+            commentsDict["Date Posted"].append(comment_date)
+            commentsDict["Upvote"].append(comment_upvote)
+            #commentsDict["Score"].append(0)
+            
+            # LENGTH SCORING
+            if len(comment_body.split(" "))>= 200:
+                score += 4
+            elif len(comment_body.split(" ")) < 50:
+                score += 0
+            elif len(comment_body.split(" ")) < 100:
+                score += 1
+            elif len(comment_body.split(" ")) < 150:
+                score += 2
+            elif len(comment_body.split(" ")) < 200:
+                score += 3
+            
+            # UPVOTE SCORING
+            if comment_upvote >= post_upvote or comment_upvote >= 50:
+                score += 3
+            elif comment_upvote == 0:
+                score += 0
+            elif comment_upvote >= 20:
+                score += 2
+            else:
+                if post_upvote >= 10:
+                    if comment_upvote >= round(0.9*post_upvote):
+                        score += 2
+                    elif comment_upvote >= round(0.8*post_upvote):
+                        score += 1
+                else:
+                    if comment_upvote <= 3:
+                        score += 1
+                    else:
+                        score += 2
+            
+            # DATE SCORING
+            today = time.time()
+            four_months = 10368000
+            one_yrs = 31536000
+            diff = float(today) - float(comment_date)
+            if diff <= four_months:
+                score += 1
+
+            commentsDict["Score"].append(score)
+
+    #print(commentsDict)
+    return commentsDict
 
 def scrape_title(mod, subreddit, n):
     lst = []
@@ -145,6 +224,5 @@ def scrape_title(mod, subreddit, n):
 if __name__ == "__main__":
     #clearCSV()
     #print(scrape_n_posts("cs2030", 5))
-    #print(scrape_posts("ec1101e", nus_sub, 3))
-    print(scrape_posts("cs1010s", nus_sub, 3))
+    print(scrape_posts("cs1010e", nus_sub, 3))
 
