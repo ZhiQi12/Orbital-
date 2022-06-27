@@ -70,6 +70,10 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 pip install -r requirements.txt
 ```
 
+### Changing path for files
+* Navigate to folder fe -> fe -> moderate -> main.py, change the file path for line 15 such that it references the folder containing *WebScraping* folder.
+* Navigate to folder fe -> fe -> moderate -> main.py, change the file path for line 58 such that it references the file location of *RFR_model.sav*.
+
 ### Operating on Django
 * To run the web application using Django, navigate to the folder with *manage.py* file in command prompt and run:
 ```
