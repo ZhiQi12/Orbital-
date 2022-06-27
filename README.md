@@ -2,7 +2,7 @@
 
 # MODeRATE 
 
-MODeRATE is a web app which generates sentimental scores for NUS modules based on reviews scraped from Reddit and NUSMODS. 
+MODeRATE is a web app which generates sentimental scores for NUS modules based on reviews scraped from Reddit. 
 
 ## Description 
 
@@ -17,13 +17,27 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 
 ## Features
 
-### Model
+### Custom AI model
+- Random Forest Regressor model
+- Trained on over 100 Reddit submissions
+- Determines sentimental rating of reviews from trained model
 
-* Detecting sarcasm
-* Most commonly used words/phrases by students to describe modules
-* Refine score to show weighted value of a review based on date of post, number of upvotes, etc
+### Sentiment rating
+- Returns a score out of ten
 
-### Website
+### Top 3 comments
+- Display the most relevant comments about the module
+- Ordered by factors : number of upvotes, date posted and length of comment
+
+### Emotion chart
+- Display the emotions associated with the reviews about the module
+- Using text2emotion python package for emotion analysis
+
+### View metrics
+- Display the highest rated module in MODeRATE
+- Display the most-searched module in MODeRATE
+
+## Uses
 
 * Allows user to input a module code 
 * Returns a sentimental score of the module
@@ -39,10 +53,10 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 
 ### Libraries
 
-* Selenium
-* BeautifulSoup
+* PRAW
 * Pandas
-* NLTK
+* NLTK 
+* Scikit Learn
 * Time
 * Django 
 
@@ -53,10 +67,8 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 ```
 pip install -r requirements.txt
 ```
-* Install chrome driver for selenium scraping
-* Unzip and place driver in project's root directory
-	* [Link to Chrome Driver Download (Select based on chrome version)](https://chromedriver.chromium.org/downloads)
-
+* Create a Reddit application to use PRAW
+    * [https://www.reddit.com/prefs/apps/]
 
 ## Authors
 
