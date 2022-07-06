@@ -11,11 +11,9 @@ import pickle
 import spacy
 import string
 import praw
-import re
-import time
-import csv
+import sys
+sys.path.insert(1, 'C:/Users/Yan Rong/Documents/GitHub/Orbital-')
 from WebScraping import scrapeReddit
-
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -56,8 +54,9 @@ def RFR_AI_model(comments):
             if not token.is_stop and not (token.text in string.punctuation) and token.text!= "\n":
                 str += token.lemma_.lower() + " "
         cleaned.append(str[0:len(str)-1])
-    
-    model = pickle.load(open("C:/Users/Yan Rong/Documents/programming/Orbital/RFR_model.sav", 'rb'))
+    #file location of AI model
+    PATH = "C:/Users/Yan Rong/Documents/GitHub/Orbital-/fe/moderate/RFR_model.sav"
+    model = pickle.load(open(PATH, 'rb'))
     ratings = model.predict(cleaned)
     average = sum(ratings)/len(ratings)
     return (comments, f'{average:.2f}')
