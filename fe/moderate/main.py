@@ -14,6 +14,8 @@ import praw
 import sys
 sys.path.insert(1, 'C:/Users/Yan Rong/Documents/GitHub/Orbital-')
 from WebScraping import scrapeReddit
+from collections import Counter
+import text2emotion as te
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -41,10 +43,16 @@ def SIA_analyse_sent(comments):
     df = pd.DataFrame.from_records(results)
     return (comments, df["compound"].mean())
 
-def MODeRATE(MOD, n):
-    return RFR_AI_model(scrape_n_posts(MOD, n))
+#def MODeRATE(MOD, n):
+#    return RFR_AI_model(scrape_n_posts(MOD, n))
 
-def RFR_AI_model(comments):
+def RFR_AI_model_predict(comments): #input list of strings
+    PATH = "C:/Users/Yan Rong/Documents/GitHub/Orbital-/fe/moderate/RFR_model.sav"
+    model = pickle.load(open(PATH, 'rb'))
+    ratings = model.predict(comments)
+    return ratings
+
+def text_preprocessing(comments):
     cleaned = []
     nlp = spacy.load("en_core_web_sm")
     for message in comments:
@@ -54,15 +62,28 @@ def RFR_AI_model(comments):
             if not token.is_stop and not (token.text in string.punctuation) and token.text!= "\n":
                 str += token.lemma_.lower() + " "
         cleaned.append(str[0:len(str)-1])
-    #file location of AI model
-    PATH = "C:/Users/Yan Rong/Documents/GitHub/Orbital-/fe/moderate/RFR_model.sav"
-    model = pickle.load(open(PATH, 'rb'))
-    ratings = model.predict(cleaned)
+    return cleaned
+
+def RFR_avg_rating(comments):
+    cleaned = text_preprocessing(comments)
+    ratings = RFR_AI_model_predict(cleaned)
     average = sum(ratings)/len(ratings)
-    return (comments, f'{average:.2f}')
+    return f'{average:.2f}'
 
 def NB_AI_model(comments):
     model = pickle.load(open("NB_model.sav", 'rb'))
     ratings = model.predict(comments)
     average = sum(ratings)/len(ratings)
     return (comments, average)
+
+def emotion_chart(comments):
+    emotions_dict = {"Happy": 0.0, "Angry" : 0.0, "Surprise" : 0.0, "Sad" : 0.0, "Fear" : 0.0}
+    for comment in comments:
+        emotions_dict = Counter(emotions_dict) + Counter(te.get_emotion(comment))
+    return list(emotions_dict.values())
+
+def convert_emotion_chart_to_str(emotions):
+    emo_string = ""
+    for e in list(map(str, emotions)):
+            emo_string += e + ","
+    return emo_string[:-1]

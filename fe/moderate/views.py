@@ -2,9 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Module, Issue
 from .forms import CreateNewMod
-from .main import MODeRATE
-from collections import Counter
-import text2emotion as te
+from .main import scrape_n_posts, RFR_avg_rating, emotion_chart, convert_emotion_chart_to_str
 
 
 def home(response):
@@ -19,7 +17,6 @@ def find(response):
 
 def moderate(request):
     mydict = {}
-    emotions_dict = {"Happy": 0.0, "Angry" : 0.0, "Surprise" : 0.0, "Sad" : 0.0, "Fear" : 0.0}
     text = request.POST.get('mod')
     text = text.upper()
     mydict["text"] = text
@@ -35,37 +32,30 @@ def moderate(request):
                                                 getattr(comments, "searched") + 1)
     except:
         #perform MODeRATE if not in database
-        comments = MODeRATE(text, 2)
-        #emotion detection
-        for comment in comments[0]:
-            emotions_dict = Counter(emotions_dict) + Counter(te.get_emotion(comment))
-        mydict["emotions"] = list(emotions_dict.values())
-        #rating using AI model
-        mydict["rating"] = comments[1]
+        tpl = scrape_n_posts(text, 3)
+        mydict["rating"] = RFR_avg_rating(tpl[0])
+        mydict["emotions"] = emotion_chart(tpl[0])
         #comments
         try:
-            mydict["comment1"] = comments[0][0]
+            mydict["comment1"] = tpl[1][0]
         except:
             mydict["comment1"] = ""
         try:
-            mydict["comment2"] = comments[0][1]
+            mydict["comment2"] = tpl[1][1]
         except:
             mydict["comment2"] = ""
         try:
-            mydict["comment3"] = comments[0][2]
+            mydict["comment3"] = tpl[1][2]
         except:
             mydict["comment3"] = ""
         #save into database
-        emo_string = ""
-        for e in list(map(str, mydict["emotions"])):
-            emo_string += e + ","
         mod = Module(code = text, 
-                    rating = comments[1],
+                    rating = mydict["rating"],
                     comment1 = mydict["comment1"],
                     comment2 = mydict["comment2"],
                     comment3 = mydict["comment3"],
                     searched = 1,
-                    emotions = emo_string[:-1]
+                    emotions = convert_emotion_chart_to_str(mydict["emotions"])
                     )
         mod.save()
     global cmod
