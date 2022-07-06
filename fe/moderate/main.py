@@ -96,7 +96,7 @@ def emotion_chart(comments):
     emotions_dict = {"Happy": 0.0, "Angry" : 0.0, "Surprise" : 0.0, "Sad" : 0.0, "Fear" : 0.0}
     for comment in comments:
         emotions_dict = merge_dict(emotions_dict, get_emotion_dict(comment))
-    return emotions_dict
+    return list(emotions_dict.values())
 
 def convert_emotion_chart_to_str(emotions):
     emo_string = ""
