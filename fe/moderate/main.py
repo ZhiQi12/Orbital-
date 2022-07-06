@@ -1,18 +1,18 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from bs4 import BeautifulSoup
-import time
+# from selenium import webdriver
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# from bs4 import BeautifulSoup
+# import time
 import pandas as pd
 import pickle
 import spacy
 import string
 import praw
 import sys
-sys.path.insert(1, 'C:/Users/Yan Rong/Documents/GitHub/Orbital-')
+sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
 from WebScraping import scrapeReddit
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
@@ -42,7 +42,7 @@ def SIA_analyse_sent(comments):
     return (comments, df["compound"].mean())
 
 def MODeRATE(MOD, n):
-    return RFR_AI_model(scrape_n_posts(MOD, n))
+    return RFR_AI_model(scrape_n_posts(MOD, n)[0])
 
 def RFR_AI_model(comments):
     cleaned = []
@@ -55,7 +55,7 @@ def RFR_AI_model(comments):
                 str += token.lemma_.lower() + " "
         cleaned.append(str[0:len(str)-1])
     #file location of AI model
-    PATH = "C:/Users/Yan Rong/Documents/GitHub/Orbital-/fe/moderate/RFR_model.sav"
+    PATH = "C:/Orbital/Orbital_Moderate/fe/moderate/RFR_model.sav"
     model = pickle.load(open(PATH, 'rb'))
     ratings = model.predict(cleaned)
     average = sum(ratings)/len(ratings)

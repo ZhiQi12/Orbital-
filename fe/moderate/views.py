@@ -35,7 +35,9 @@ def moderate(request):
                                                 getattr(comments, "searched") + 1)
     except:
         #perform MODeRATE if not in database
-        comments = MODeRATE(text, 2)
+        comments = MODeRATE(text, 2)  #return type got prob
+        # comments = commentsLst[0]
+        # top3 = commentsLst[1]
         #emotion detection
         for comment in comments[0]:
             emotions_dict = Counter(emotions_dict) + Counter(te.get_emotion(comment))
@@ -44,17 +46,18 @@ def moderate(request):
         mydict["rating"] = comments[1]
         #comments
         try:
-            mydict["comment1"] = comments[0][0]
+            mydict["comment1"] = top3[0]
         except:
             mydict["comment1"] = ""
         try:
-            mydict["comment2"] = comments[0][1]
+            mydict["comment2"] = top3[1]
         except:
             mydict["comment2"] = ""
         try:
-            mydict["comment3"] = comments[0][2]
+            mydict["comment3"] = top3[2]
         except:
             mydict["comment3"] = ""
+
         #save into database
         emo_string = ""
         for e in list(map(str, mydict["emotions"])):
