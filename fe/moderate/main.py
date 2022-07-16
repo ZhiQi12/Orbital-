@@ -12,7 +12,7 @@ import spacy
 import string
 import praw
 import sys
-sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
+sys.path.insert(1, 'C:/Users/Yan Rong/Documents/GitHub/Orbital-')
 from WebScraping import scrapeReddit
 from collections import Counter
 import text2emotion as te
@@ -47,7 +47,7 @@ def SIA_analyse_sent(comments):
 #    return RFR_AI_model(scrape_n_posts(MOD, n))
 
 def RFR_AI_model_predict(comments): #input list of strings
-    PATH = "C:/Orbital/Orbital_Moderate/fe/moderate/RFR_model.sav"
+    PATH = "C:/Users/Yan Rong/Documents/GitHub/Orbital-/fe/moderate/RFR_model.sav"
     model = pickle.load(open(PATH, 'rb'))
     ratings = model.predict(comments)
     return ratings
@@ -63,12 +63,6 @@ def text_preprocessing(comments):
                 str += token.lemma_.lower() + " "
         cleaned.append(str[0:len(str)-1])
     return cleaned
-
-def RFR_AI_model_predict(comments): #input list of strings
-    PATH = "C:/Orbital/Orbital_Moderate/fe/moderate/RFR_model.sav"
-    model = pickle.load(open(PATH, 'rb'))
-    ratings = model.predict(comments)
-    return ratings
 
 def RFR_avg_rating(comments):
     cleaned = text_preprocessing(comments)

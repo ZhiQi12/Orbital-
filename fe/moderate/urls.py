@@ -14,6 +14,7 @@ path("view/rating/", views.rating, name="rating"),
 path("view/searched/", views.searched, name="searched"),
 path("problem/", views.problem, name="problem"),
 path("problem/thankyou", views.thankyou, name="thankyou"),
+path("find/error", views.find, name="error"),
 ]
 
 ##admin 
