@@ -105,6 +105,17 @@ def scrapeReviews(browser):
         
         return (postList)
 
+def addCommentsToCSV(comments):
+    with open('./comments.csv', 'a', newline='', encoding="utf-8") as f:
+        writer = csv.writer(f)
+
+        for comment in comments:
+            writer.writerow([comment])
+
+def clearCSV():
+    # Truncates the csv file
+    f = open('./comments.csv', 'w+')
+    f.close()
 
 if __name__ == '__main__':
     browser = findMod("cs1010")

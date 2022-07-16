@@ -11,22 +11,13 @@ CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
 USER_AGENT = "Orbital"
 
 # Reddit Instance
-reddit_read = praw.Reddit(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, user_agent=USER_AGENT)
+def create_subreddit(clientID, clientSecret, userAgent, subreddit):
+    return praw.Reddit(client_id=clientID, client_secret=clientSecret, user_agent=userAgent).subreddit(subreddit)
+# reddit_read = praw.Reddit(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, user_agent=USER_AGENT)
 
 # Subreddits
-nus_sub = reddit_read.subreddit("nus")
-
-def addCommentsToCSV(comments):
-    with open('./comments.csv', 'a', newline='', encoding="utf-8") as f:
-        writer = csv.writer(f)
-
-        for comment in comments:
-            writer.writerow([comment])
-
-def clearCSV():
-    # Truncates the csv file
-    f = open('./comments.csv', 'w+')
-    f.close()
+# nus_sub = reddit_read.subreddit("nus")
+nus_sub = create_subreddit(CLIENT_ID, CLIENT_SECRET, USER_AGENT, "nus")
 
 ###################################################################################################################################################
 banned_words = ["telegram", "textbook","textbooks", "tele", "chats","grp", "group","chat","modreg", "internship", "notes", "bid", "bidding"]
@@ -42,6 +33,7 @@ def check_date(post):
     if diff >= three_yrs:
         return -1  # don't scrape
     elif diff <= five_months:
+        
         return 1   # scrape, don't need check upvote because post is recent (less than 5 months ago)
     else:
         return 0   #check upvote then can scrape
@@ -57,8 +49,6 @@ def scrape_posts(mod, subreddit, n):
             if check_date_num == -1 or post.num_comments == 0:  # if post is moren than 3 yrs old or got no comments, skip post
                 continue
             else: 
-                #print(post.title)
-
                 if check_date_num ==  1 or check_date_num == 0:
                     commentsDict = getComments(post, banned_words_for_comments)
                     dict["Post Title"].append(post.title)
@@ -109,8 +99,9 @@ def getComments(post, banned_words):
     # counter = 0
     post_upvote = post.score
     comments = post.comments.list()
+    #print(comments)
     for comment in comments:
-        if len(comment.body.split(" "))>=8 and filterComment(comment, banned_words):
+        if len(comment.body.split())>=8 and filterComment(comment, banned_words):
             score = 0
             store.append(comment.body)
             comment_body = comment.body
@@ -121,15 +112,16 @@ def getComments(post, banned_words):
             commentsDict["Upvote"].append(comment_upvote)
             
             # LENGTH SCORING
-            if len(comment_body.split(" "))>= 200:
+            if len(comment_body.split())>= 200:
                 score += 4
-            elif len(comment_body.split(" ")) < 50:
+                print("plus 4")
+            elif len(comment_body.split()) < 50:
                 score += 0
-            elif len(comment_body.split(" ")) < 100:
+            elif len(comment_body.split()) < 100:
                 score += 1
-            elif len(comment_body.split(" ")) < 150:
+            elif len(comment_body.split()) < 150:
                 score += 2
-            elif len(comment_body.split(" ")) < 200:
+            elif len(comment_body.split()) < 200:
                 score += 3
             
             # UPVOTE SCORING
@@ -160,19 +152,10 @@ def getComments(post, banned_words):
                 score += 1
 
             commentsDict["Score"].append(score)
-
+        
     return commentsDict
-
-def scrape_title(mod, subreddit, n):
-    lst = []
-    counter = 1
-    for post in subreddit.search(mod):
-        if counter <= n:
-            lst.append(post.created_utc)
-        counter += 1
-    return lst
 
 # Main function
 if __name__ == "__main__":
-    print(scrape_posts("ma1521", nus_sub, 3))
+    print(scrape_posts("ec1101e", nus_sub, 3))
 
