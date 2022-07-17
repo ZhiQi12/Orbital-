@@ -80,7 +80,7 @@ def getPageMods(browser):
 def addModsToCSV(modList):
     with open('./mods.csv', 'a', newline='', encoding="utf-8") as f:
         writer = csv.writer(f)
-
+        writer.writerow(["Module Code"])
         for mod in modList:
             writer.writerow([mod.code])
 

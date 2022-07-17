@@ -1,9 +1,8 @@
 import praw
 #import pandas as pd
 from pandas import *
-import re
 import time
-import csv
+import schedule
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -30,6 +29,8 @@ def read_bannedwordsCSV():
     #     fields = next(csvreader)
     #     print(fields)
     data = read_csv("C:/Orbital/Orbital_Moderate/WebScraping/banned_words.csv")
+    #moduleCodes = read_csv("C:/Orbital/Orbital_Moderate/mods.csv")["Module Code"].tolist()
+
     banned_words = data["banned_words"].fillna('').tolist()
     banned_words_for_comments = data["banned_words_for_comments"].fillna('').tolist()
    
