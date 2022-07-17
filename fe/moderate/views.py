@@ -32,9 +32,12 @@ def moderate(request):
                                                 getattr(comments, "searched") + 1)
     except:
         #perform MODeRATE if not in database
-        tpl = scrape_n_posts(text, 3)
-        mydict["rating"] = RFR_avg_rating(tpl[0])
-        mydict["emotions"] = emotion_chart(tpl[0])
+        try:
+            tpl = scrape_n_posts(text, 3)
+            mydict["rating"] = RFR_avg_rating(tpl[0])
+            mydict["emotions"] = emotion_chart(tpl[0])
+        except:
+            return render(request, "moderate/error.html", {})
         #comments
         try:
             mydict["comment1"] = tpl[1][0]
