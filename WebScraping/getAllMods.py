@@ -3,20 +3,28 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import sys
+sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
+from WebScraping import scrapeReddit
 
 from urllib import parse
 import csv
 
 # CONSTANTS ====================================================================
-MODULE_PAGE = "https://nusmods.com/modules?sem[0]=1&sem[1]=2&sem[2]=3&sem[3]=4"
-
+#MODULE_PAGE = "https://nusmods.com/modules?sem[0]=1&sem[1]=2&sem[2]=3&sem[3]=4"
+MODULE_PAGE = "https://nusmods.com/modules?&sem[0]=1&sem[1]=2&level[0]=1000&level[1]=2000&level[2]=3000&level[3]=4000&mcs[0]=4_5"
+CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
+CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
+USER_AGENT = "Orbital"
+nus_sub = scrapeReddit.create_subreddit(CLIENT_ID, CLIENT_SECRET, USER_AGENT, "nus")
 # ==============================================================================
 
 class Mod:
-    def __init__(self, code, title, link):
+    #def __init__(self, code, title, link):
+    def __init__(self, code):
         self.code = code 
-        self.title = title
-        self.link = link
+        #self.title = title
+        #self.link = link
 # ================================================================================================================
 
 def getBrowser():
@@ -37,7 +45,7 @@ def getMaxPages():
     url = browser.current_url
     max_page_num =parse.parse_qs(parse.urlparse(url).query)['p'][0]
     browser.close()
-    return max_page_num
+    return int(max_page_num)
 # ================================================================================================================
 
 def getPageMods(browser):
@@ -53,11 +61,18 @@ def getPageMods(browser):
     for mod in all_mods:
         anchorElem = mod.find_element(by=By.XPATH, value="a")
         
-        modLink = anchorElem.get_attribute("href")
         modCode = anchorElem.find_element(by=By.XPATH, value="span[1]").text
-        modTitle = anchorElem.find_element(by=By.XPATH, value="span[2]").text
+        #print(modCode)
+        # check if mod has posts on reddit 
+        posts = nus_sub.search(modCode)
+        #print(len(list(posts)))
+        if len(list(posts)) == 0:
+            #print(modCode + " got no reviews")
+            continue
 
-        newMod = Mod(modCode, modTitle, modLink)
+        #modTitle = anchorElem.find_element(by=By.XPATH, value="span[2]").text
+        #modLink = anchorElem.get_attribute("href")
+        newMod = Mod(modCode)
         pageModsList.append(newMod)
     
     return pageModsList
@@ -67,7 +82,7 @@ def addModsToCSV(modList):
         writer = csv.writer(f)
 
         for mod in modList:
-            writer.writerow([mod.code, mod.title, mod.link])
+            writer.writerow([mod.code])
 
 def clearCSV():
     # Truncates the csv file
@@ -85,7 +100,7 @@ def getModList(max_page_num):
         browser.get(MODULE_PAGE + f'&p={i}')
         pageModsList = getPageMods(browser)
         addModsToCSV(pageModsList)
-        print(i)
+        print(i , " page")
         i += 1
 # ================================================================================================================
 
@@ -95,7 +110,6 @@ if __name__ == '__main__':
 
     # Find last page number
     lastPageNum = getMaxPages()
-    #print(lastPageNum)
+    print(lastPageNum)
     # Loop through to get all mods
-    getModList(int(10))
-    getModList(int(lastPageNum))
+    getModList(lastPageNum)

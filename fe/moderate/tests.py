@@ -97,6 +97,11 @@ class MyTestCase(TestCase):
     def tearDown(self):
         pass
 
+    def test_read_bannedwordsCSV(self):
+        print("test_read_bannedwordsCSV")
+        self.assertTrue(len(scrapeReddit.read_bannedwordsCSV()) == 2)
+        self.assertTrue(type(scrapeReddit.read_bannedwordsCSV()) == tuple)
+
     def test_filterPost(self):
         print("test_filterPost")
         

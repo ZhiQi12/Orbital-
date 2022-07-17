@@ -1,10 +1,9 @@
 import praw
-import pandas as pd
+#import pandas as pd
+from pandas import *
 import re
 import time
 import csv
-
-pd.set_option("display.max_columns", 100)
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -20,8 +19,23 @@ def create_subreddit(clientID, clientSecret, userAgent, subreddit):
 nus_sub = create_subreddit(CLIENT_ID, CLIENT_SECRET, USER_AGENT, "nus")
 
 ###################################################################################################################################################
-banned_words = ["telegram", "textbook","textbooks", "tele", "chats","grp", "group","chat","modreg", "internship", "notes", "bid", "bidding"]
-banned_words_for_comments = ["thank", "thanks", "?", "thx"]
+#banned_words = ["telegram", "textbook","textbooks", "tele", "chats","grp", "group","chat","modreg", "internship", "notes", "bid", "bidding"]
+#banned_words_for_comments = ["thank", "thanks", "?", "thx"]
+
+def read_bannedwordsCSV():
+    banned_words = []
+    banned_words_for_comments = []
+    # with open("banned_words", 'r') as csvfile:
+    #     csvreader = csv.reader(csvfile)
+    #     fields = next(csvreader)
+    #     print(fields)
+    data = read_csv("C:/Orbital/Orbital_Moderate/WebScraping/banned_words.csv")
+    banned_words = data["banned_words"].fillna('').tolist()
+    banned_words_for_comments = data["banned_words_for_comments"].fillna('').tolist()
+   
+    banned_words = [word for word in banned_words if word != '']
+    banned_words_for_comments = [word for word in banned_words_for_comments if word != '']
+    return (banned_words, banned_words_for_comments)
 
 def check_date(post): 
     date_posted = post.created_utc  # date posted
@@ -44,13 +58,13 @@ def scrape_posts(mod, subreddit, n):
     counter = 1
     top_3 = []
     for post in subreddit.search(mod):
-        if counter <= n and filterPost(post, banned_words, mod):
+        if counter <= n and filterPost(post, BANNED_WORDS_FOR_POSTS, mod):
             check_date_num = check_date(post)
             if check_date_num == -1 or post.num_comments == 0:  # if post is moren than 3 yrs old or got no comments, skip post
                 continue
             else: 
                 if check_date_num ==  1 or check_date_num == 0:
-                    commentsDict = getComments(post, banned_words_for_comments)
+                    commentsDict = getComments(post, BANNED_WORDS_FOR_COMMENTS)
                     dict["Post Title"].append(post.title)
                     dict["Comments"].extend(commentsDict["Body"])  # all relevant comments
                     dict["Score"].extend(commentsDict["Score"])
@@ -155,7 +169,13 @@ def getComments(post, banned_words):
         
     return commentsDict
 
+BANNED_WORDS_FOR_POSTS = read_bannedwordsCSV()[0]
+BANNED_WORDS_FOR_COMMENTS = read_bannedwordsCSV()[1]
+
+#def getRedditID(url):
+
 # Main function
 if __name__ == "__main__":
-    print(scrape_posts("ec1101e", nus_sub, 3))
+    print(read_bannedwordsCSV())
+    #print(scrape_posts("ec1101e", nus_sub, 1))
 
