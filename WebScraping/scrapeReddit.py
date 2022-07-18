@@ -28,7 +28,8 @@ def read_bannedwordsCSV():
     #     csvreader = csv.reader(csvfile)
     #     fields = next(csvreader)
     #     print(fields)
-    data = read_csv("C:/Orbital/Orbital_Moderate/WebScraping/banned_words.csv")
+    #data = read_csv("C:/Orbital/Orbital_Moderate/WebScraping/banned_words.csv")
+    data = read_csv("https://github.com/ZhiQi12/Orbital-/blob/master/WebScraping/banned_words.csv?raw=true")
     #moduleCodes = read_csv("C:/Orbital/Orbital_Moderate/mods.csv")["Module Code"].tolist()
 
     banned_words = data["banned_words"].fillna('').tolist()
