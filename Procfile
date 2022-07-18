@@ -1,1 +1,1 @@
-web: gunicorn ORBITAL_MODERATE.wsgi
+web: gunicorn moderate.wsgi
