@@ -1,1 +1,1 @@
-web: gunicorn moderate.wsgi
+web: gunicorn fe.wsgi
