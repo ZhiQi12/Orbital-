@@ -12,7 +12,7 @@ import spacy
 import string
 import praw
 import sys
-sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
+#sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
 from WebScraping import scrapeReddit
 from collections import Counter
 import text2emotion as te
