@@ -1,10 +1,11 @@
 import praw
-#import pandas as pd
+import pandas as pd
 from pandas import *
 import time
 import schedule
 import pickle 
 import urllib
+import pyreadstat
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -181,10 +182,6 @@ BANNED_WORDS_FOR_COMMENTS = read_bannedwordsCSV()[1]
 # Main function
 if __name__ == "__main__":
     #print(read_bannedwordsCSV())
-    PATH = 'https://github.com/ZhiQi12/Orbital-/blob/3de8f58a5a793fd4a28ae4dcd06b2050da4ed040/fe/moderate/RFR_model.sav'
-    x = urllib.request.urlopen(PATH)
-    print(x)
-
-    model = pickle.load(x)
+    model = pyreadstat.read_sav('https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav')
     #print(scrape_posts("ec1101e", nus_sub, 1))
 
