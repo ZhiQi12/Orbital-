@@ -189,6 +189,6 @@ if __name__ == "__main__":
     PATH2= 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
 
     #model = pickle.load(open(PATH1, 'rb'))
-    model = cp.load(urlopen(PATH1))
+    #model = cp.load(urlopen(PATH1))
     #print(scrape_posts("ec1101e", nus_sub, 1))
 
