@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'fe.wsgi.application'
 #     }
 # }
 
-DATABASE = {
+DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'd1qs0piv989h9i',
