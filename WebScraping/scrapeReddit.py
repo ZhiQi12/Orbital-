@@ -8,7 +8,7 @@ import urllib
 import pyreadstat
 import requests
 from urllib.request import urlopen
-import cloudpickle as cp
+# import cloudpickle as cp
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
