@@ -12,7 +12,7 @@ import spacy
 import string
 import praw
 import sys
-sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
+#sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
 from WebScraping import scrapeReddit
 from collections import Counter
 import text2emotion as te
@@ -70,12 +70,6 @@ def RFR_avg_rating(comments):
     ratings = RFR_AI_model_predict(cleaned)
     average = sum(ratings)/len(ratings)
     return f'{average:.2f}'
-
-def NB_AI_model(comments):
-    model = pickle.load(open("NB_model.sav", 'rb'))
-    ratings = model.predict(comments)
-    average = sum(ratings)/len(ratings)
-    return (comments, average)
 
 def merge_dict(dict1, dict2):
     final_dict = {}
