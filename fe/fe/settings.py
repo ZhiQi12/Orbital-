@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'moderate.apps.ModerateConfig',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -141,6 +142,6 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-django_heroku.settings(locals())
+#STATICFILES_DIRS = [
+#   os.path.join(BASE_DIR, "static"),
+#   ]
