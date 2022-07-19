@@ -17,6 +17,7 @@ from WebScraping import scrapeReddit
 from collections import Counter
 import text2emotion as te
 import urllib.request
+import requests
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -48,10 +49,12 @@ def SIA_analyse_sent(comments):
 #    return RFR_AI_model(scrape_n_posts(MOD, n))
 
 def RFR_AI_model_predict(comments): #input list of strings
-    PATH = "C:/Orbital/Orbital_Moderate/fe/moderate/RFR_model.sav"
-    #PATH = 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
-    #model = pickle.load(open(PATH, 'rb'))
-    model = pickle.load(urllib.request.urlopen(PATH))
+    #PATH = "C:/Orbital/Orbital_Moderate/fe/moderate/RFR_model.sav"
+    PATH = 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
+    #PATH = 'https://github.com/ZhiQi12/Orbital-/blob/3de8f58a5a793fd4a28ae4dcd06b2050da4ed040/fe/moderate/RFR_model.sav'
+    model = pickle.load(open(PATH, 'rb'))
+    #file = urllib.request.urlopen(PATH)
+    #model = pickle.load(urllib.request.urlopen(PATH))
     ratings = model.predict(comments)
     return ratings
 
