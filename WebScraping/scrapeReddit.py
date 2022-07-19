@@ -6,6 +6,7 @@ import schedule
 import pickle 
 import urllib
 import pyreadstat
+import requests
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -181,7 +182,11 @@ BANNED_WORDS_FOR_COMMENTS = read_bannedwordsCSV()[1]
 
 # Main function
 if __name__ == "__main__":
-    #print(read_bannedwordsCSV())
-    model = pyreadstat.read_sav('https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav')
+    print(read_bannedwordsCSV())
+    # url = 'https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav'
+    # #model = pyreadstat.read_sav(url)
+    # model = requests.get(url).url
+    # open(model, "rb")
+    #ratings = model.url.predict(comments)
     #print(scrape_posts("ec1101e", nus_sub, 1))
 
