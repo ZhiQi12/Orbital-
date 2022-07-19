@@ -16,6 +16,7 @@ sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
 from WebScraping import scrapeReddit
 from collections import Counter
 import text2emotion as te
+import urllib.request
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -49,7 +50,8 @@ def SIA_analyse_sent(comments):
 def RFR_AI_model_predict(comments): #input list of strings
     #PATH = "C:/Orbital/Orbital_Moderate/fe/moderate/RFR_model.sav"
     PATH = 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
-    model = pickle.load(open(PATH, 'rb'))
+    #model = pickle.load(open(PATH, 'rb'))
+    model = pickle.load(urllib.request.urlopen(PATH))
     ratings = model.predict(comments)
     return ratings
 
