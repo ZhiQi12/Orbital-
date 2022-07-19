@@ -4,7 +4,6 @@ from .models import Module, Issue
 from .forms import CreateNewMod
 from .main import scrape_n_posts, RFR_avg_rating, emotion_chart, convert_emotion_chart_to_str
 import time
-import schedule
 from pandas import *
 
 def home(response):
@@ -68,37 +67,7 @@ def moderate(request):
         mod.save()
     global cmod
     cmod = text
-    return render(request, "moderate/comments.html", mydict)
-
-# # unsure of whr to put this
-# def job(request):
-#     modCodesLst = read_csv("C:/Orbital/Orbital_Moderate/mods.csv")["Module Code"].tolist()
-#     for modCode in modCodesLst:
-#         # save into database
-#         mydict = {}
-#         text = request.POST.get('mod')
-#         text = text.upper()
-#         mydict["text"] = text
-#         tpl = scrape_n_posts(text, 3)
-#         mydict["rating"] = RFR_avg_rating(tpl[0])
-#         mydict["emotions"] = emotion_chart(tpl[0])
-#         mod = Module(code = text, 
-#             rating = mydict["rating"],
-#             comment1 = mydict["comment1"],
-#             comment2 = mydict["comment2"],
-#             comment3 = mydict["comment3"],
-#             searched = 1,
-#             emotions = convert_emotion_chart_to_str(mydict["emotions"])
-#             )
-#         mod.save()
-
-# def hello():
-#     print("hello")
-
-# def runjob(request):
-#     #run job() function everyday at 1am
-#     schedule.every().day.at("11:18").do(hello())   
-
+    return render(request, "moderate/comments.html", mydict)  
 
 def view(response):
     return render(response, "moderate/view.html")

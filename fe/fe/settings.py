@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import django_heroku
-import dj_database_url
-from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +26,7 @@ SECRET_KEY = '+@mg_0h!*qpi6l07ki@+^f*qq^96rk7xou(k*km8m!_zf+f^vx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["moderate-app.herokuapp.com"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -53,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+#    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'fe.urls'
@@ -74,29 +71,29 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'fe.wsgi.application'
+#WSGI_APPLICATION = 'fe.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    'default' : {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd1qs0piv989h9i',
-        'USER': 'hujmkttrbbfzfr',
-        'PASSWORD': 'ac1b4d1f4f90cc5edb1d4ad1e2efac3be1de81cc739a11847ec7d6ef2388253d',
-        'HOST': 'ec2-52-205-61-230.compute-1.amazonaws.com',
-        'PORT': '5432',
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default' : {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'd1qs0piv989h9i',
+#         'USER': 'hujmkttrbbfzfr',
+#         'PASSWORD': 'ac1b4d1f4f90cc5edb1d4ad1e2efac3be1de81cc739a11847ec7d6ef2388253d',
+#         'HOST': 'ec2-52-205-61-230.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -145,3 +142,7 @@ STATIC_URL = '/static/'
 #STATICFILES_DIRS = [
 #   os.path.join(BASE_DIR, "static"),
 #   ]
+
+CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io']
+
+#ngrok http 8000 --host-header rewrite

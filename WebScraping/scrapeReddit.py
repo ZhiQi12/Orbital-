@@ -2,7 +2,6 @@ import praw
 #import pandas as pd
 from pandas import *
 import time
-import schedule
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"

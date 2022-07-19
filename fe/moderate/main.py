@@ -12,9 +12,9 @@ import spacy
 import string
 import praw
 import sys
-sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
+sys.path.insert(1, 'C:/Users/Yan Rong/Documents/GitHub/Orbital-')
 from WebScraping import scrapeReddit
-from collections import Counter
+#from collections import Counter
 import text2emotion as te
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
@@ -30,25 +30,24 @@ def scrape_n_posts(mod, n):
     return scrapeReddit.scrape_posts(mod, nus_sub, n) 
 
 #NLTK VADER
-from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
+#from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 
-def SIA_analyse_sent(comments):
-    sia = SIA()
-    results = []
-    for comment in comments:
-        pol_score = sia.polarity_scores(comment)
-        pol_score["Comment"] = comment
-        results.append(pol_score)
+# def SIA_analyse_sent(comments):
+#     sia = SIA()
+#     results = []
+#     for comment in comments:
+#         pol_score = sia.polarity_scores(comment)
+#         pol_score["Comment"] = comment
+#         results.append(pol_score)
 
-    df = pd.DataFrame.from_records(results)
-    return (comments, df["compound"].mean())
+#     df = pd.DataFrame.from_records(results)
+#     return (comments, df["compound"].mean())
 
 #def MODeRATE(MOD, n):
 #    return RFR_AI_model(scrape_n_posts(MOD, n))
 
 def RFR_AI_model_predict(comments): #input list of strings
-    #PATH = "C:/Orbital/Orbital_Moderate/fe/moderate/RFR_model.sav"
-    PATH = 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
+    PATH = "C:/Users/Yan Rong/Documents/GitHub/Orbital-/fe/moderate/RFR_model.sav"
     model = pickle.load(open(PATH, 'rb'))
     ratings = model.predict(comments)
     return ratings
@@ -70,6 +69,12 @@ def RFR_avg_rating(comments):
     ratings = RFR_AI_model_predict(cleaned)
     average = sum(ratings)/len(ratings)
     return f'{average:.2f}'
+
+# def NB_AI_model(comments):
+#     model = pickle.load(open("NB_model.sav", 'rb'))
+#     ratings = model.predict(comments)
+#     average = sum(ratings)/len(ratings)
+#     return (comments, average)
 
 def merge_dict(dict1, dict2):
     final_dict = {}
