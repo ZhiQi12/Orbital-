@@ -54,7 +54,7 @@ def RFR_AI_model_predict(comments): #input list of strings
     # #model = pickle.load(open(PATH, 'rb'))
     # model = pd.read_spss('https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav')  # download url 
     print(comments)
-    model = pickle.load(open('Orbital-/fe/moderate/RFR_model.sav', 'rb'))
+    model = pickle.load(open('models/RFR_model.sav', 'rb'))
     #file = urllib.request.urlopen(PATH)
     #model = pickle.load(urllib.request.urlopen(PATH))
     ratings = model.predict(comments)
