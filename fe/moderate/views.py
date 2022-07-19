@@ -68,34 +68,34 @@ def moderate(request):
     cmod = text
     return render(request, "moderate/comments.html", mydict)
 
-# unsure of whr to put this
-def job(request):
-    modCodesLst = read_csv("C:/Orbital/Orbital_Moderate/mods.csv")["Module Code"].tolist()
-    for modCode in modCodesLst:
-        # save into database
-        mydict = {}
-        text = request.POST.get('mod')
-        text = text.upper()
-        mydict["text"] = text
-        tpl = scrape_n_posts(text, 3)
-        mydict["rating"] = RFR_avg_rating(tpl[0])
-        mydict["emotions"] = emotion_chart(tpl[0])
-        mod = Module(code = text, 
-            rating = mydict["rating"],
-            comment1 = mydict["comment1"],
-            comment2 = mydict["comment2"],
-            comment3 = mydict["comment3"],
-            searched = 1,
-            emotions = convert_emotion_chart_to_str(mydict["emotions"])
-            )
-        mod.save()
+# # unsure of whr to put this
+# def job(request):
+#     modCodesLst = read_csv("C:/Orbital/Orbital_Moderate/mods.csv")["Module Code"].tolist()
+#     for modCode in modCodesLst:
+#         # save into database
+#         mydict = {}
+#         text = request.POST.get('mod')
+#         text = text.upper()
+#         mydict["text"] = text
+#         tpl = scrape_n_posts(text, 3)
+#         mydict["rating"] = RFR_avg_rating(tpl[0])
+#         mydict["emotions"] = emotion_chart(tpl[0])
+#         mod = Module(code = text, 
+#             rating = mydict["rating"],
+#             comment1 = mydict["comment1"],
+#             comment2 = mydict["comment2"],
+#             comment3 = mydict["comment3"],
+#             searched = 1,
+#             emotions = convert_emotion_chart_to_str(mydict["emotions"])
+#             )
+#         mod.save()
 
-def hello():
-    print("hello")
+# def hello():
+#     print("hello")
 
-def runjob(request):
-    #run job() function everyday at 1am
-    schedule.every().day.at("11:18").do(hello())   
+# def runjob(request):
+#     #run job() function everyday at 1am
+#     schedule.every().day.at("11:18").do(hello())   
 
 
 def view(response):
