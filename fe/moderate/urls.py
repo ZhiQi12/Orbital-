@@ -4,7 +4,7 @@ from django.views.generic.base import RedirectView
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 urlpatterns = [
-path("<str:code>", views.index, name = "mod"),
+#path("<str:code>", views.index, name = "mod"),
 path("", views.home, name = "home"),
 path("home/", views.home, name = "home"),
 path("find/", views.find, name="find"),

@@ -10,9 +10,9 @@ from pandas import *
 def home(response):
     return render(response, "moderate/home.html", {})
 
-def index(response, code):
-    ls = Module.objects.filter(code=code)
-    return render(response, "moderate/list.html", {"ls":ls})
+# def index(response, code):
+#     ls = Module.objects.filter(code=code)[0]
+#     return render(response, "moderate/list.html", {"ls":ls})
 
 def find(response):
     return render(response, "moderate/find.html")
