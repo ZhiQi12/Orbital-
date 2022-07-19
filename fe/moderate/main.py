@@ -49,7 +49,7 @@ def SIA_analyse_sent(comments):
 
 def RFR_AI_model_predict(comments): #input list of strings
     #PATH = "C:/Orbital/Orbital_Moderate/fe/moderate/RFR_model.sav"
-    PATH = 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
+    PATH = 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav?raw=true'
     #model = pickle.load(open(PATH, 'rb'))
     model = pickle.load(urllib.request.urlopen(PATH))
     ratings = model.predict(comments)
