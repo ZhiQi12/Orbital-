@@ -38,7 +38,9 @@ def moderate(request):
             tpl = scrape_n_posts(text, 3)
             mydict["rating"] = RFR_avg_rating(tpl[0])
             mydict["emotions"] = emotion_chart(tpl[0])
-        except:
+            
+        except Exception as e:
+            print(e)
             return render(request, "moderate/error.html", {})
         #comments
         try:
