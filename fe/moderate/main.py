@@ -59,7 +59,7 @@ def RFR_AI_model_predict(comments): #input list of strings
     print(comments)
     
     #model = cp.load(urlopen(PATH))
-    model = pickle.load(open('RFR_model.sav', 'rb'))
+    model = pickle.load(open('Orbital-/fe/moderate/RFR_model.sav', 'rb'))
     #file = urllib.request.urlopen(PATH)
     #model = pickle.load(urllib.request.urlopen(PATH))
     ratings = model.predict(comments)
