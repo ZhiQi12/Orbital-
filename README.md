@@ -46,25 +46,25 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 * To show user which modules are the most popular in MODeRATE.
 
 ### Database Update Scheduling
-* Goes through all module codes stored in the database and re-performs webscrapping and sentiment analysis.
+* Goes through all module codes stored in the database and re-performs web scraping and sentiment analysis.
 * Updates the database of its rating, comments and emotions.
 * Helps increase reliability of the rating by performing regular updates.
 
 ## Design
 
 ### Webscrapping
-The primary function of the webscrapping component is used to extract relevant data from websites to be parsed into our artificial intelligent(AI) model for text analysis. The Python PRAW library, which is an exclusive webscrapping tool for Reddit, was used. A few other webscrapping tools and libraries such as Selenium and BeautifulSoup were also considered. However, PRAW yielded the best results in terms of time complexity.
+The primary function of the web scraping component is used to extract relevant data from websites to be parsed into our artificial intelligent(AI) model for text analysis. The Python PRAW library, which is an exclusive web scraping tool for Reddit, was used. A few other web scraping tools and libraries such as Selenium and BeautifulSoup were also considered. However, PRAW yielded the best results in terms of time complexity.
 
 #### Websites for Data Source
 A small-scale survey was conducted to determine which websites students would go to to find reviews for modules. Namely, two particular websites were mentioned: NUSMODs and the NUS subReddit.
 
 * NUSMODs
-A significant portion of the module reviews were quite outdated (>3 years). Several students mentioned how such reviews were unreliable as many changes would have been made to the module by the time they were taking it. Hence, NUSMODs was not included as a data source for webscrapping in this project.
+A significant portion of the module reviews were quite outdated (>3 years). Several students mentioned how such reviews were unreliable as many changes would have been made to the module by the time they were taking it. Hence, NUSMODs was not included as a data source for web scraping in this project.
 
 * NUS subReddit
-Module reviews shown are rather recent (<2 years). New posts are made more frequently as compared to NUSMODs, hence the module reviews are more reliable. Some students pointed out an issue which is that some reviews show high degree of bias, seen by the use of certain high-intensity word phrases to describe the module. While some students prefer objective reviews, having a biased comment is also a way to show the general sentiment surrounding the module. Hence, the NUS subReddit was chosen to be a data source for webscrapping in this project.
+Module reviews shown are rather recent (<2 years). New posts are made more frequently as compared to NUSMODs, hence the module reviews are more reliable. Some students pointed out an issue which is that some reviews show high degree of bias, seen by the use of certain high-intensity word phrases to describe the module. While some students prefer objective reviews, having a biased comment is also a way to show the general sentiment surrounding the module. Hence, the NUS subReddit was chosen to be a data source for web scraping in this project.
 
-#### Data scrapped
+#### Data scraped
 * Text comment - Primary component to use for sentiment analysis by the AI model. Short comments usually do not provide very constructive reviews about the modules. Hence, upon further testing, a minimum length of 8 words must be present in a text body for it to be considered relevant and be scrapped.
 
 * Number of upvotes - A factor used to determine the relevance of a comment. A high number of upvotes can be used to indicate that a particular review resonated well with other users, hence its reliability.
@@ -77,7 +77,7 @@ Helps to filter out irrelevant texts. Posts and comments containing these words/
 https://raw.githubusercontent.com/ZhiQi12/Orbital-/master/WebScraping/banned_words.csv
 
 ### Relevance Scoring System
-The relevance scoring system(RSS) acts as an extension from the webscrapping component of this project. After the above data have been scrapped from Reddit, a score will be given to a post to help determine its relevance. Refer to the scoring system below:
+The relevance scoring system(RSS) acts as an extension from the web scraping component of this project. After the above data have been scraped from Reddit, a score will be given to a post to help determine its relevance. Refer to the scoring system below:
 
 |Length (words)|Number of Upvotes (Comment)|Date of Post|
 | :--: | :--: | :---: |
@@ -155,7 +155,7 @@ RFR_model = pickle.load(open(PATH, 'rb')) # Loading
 | Emotions |  |
 
 #### Database Update Scheduling
-Extracts all existing module codes from the database. For each module code, perform one round of webscrapping and sentiment analysis. After which, update the database of the new ratings, comments and emotions.
+Extracts all existing module codes from the database. For each module code, perform one round of web scraping and sentiment analysis. After which, update the database of the new ratings, comments and emotions.
 
 This ensures that users view the most recent (and thus most reliable) rating for that module.
 
