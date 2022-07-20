@@ -45,6 +45,45 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 * Sorts and displays the top 3 highest-rated and most-searched module in MODeRATE.
 * To show user which modules are the most popular in MODeRATE
 
+## Design Principles
+
+### Webscrapping
+The primary function of the webscrapping component is used to extract relevant data from websites to be parsed into our artificial intelligent(AI) model for text analysis. The Python PRAW library, which is an exclusive webscrapping tool for Reddit, was used. A few other webscrapping tools and libraries such as Selenium and BeautifulSoup were also considered. However, PRAW yielded the best results in terms of time complexity.
+
+#### Website choice
+A small-scale survey was conducted to determine which websites students would go to to find reviews for modules. Namely, two particular websites were mentioned: NUSMODs and the NUS subReddit.
+
+* NUSMODs
+A significant portion of the module reviews were quite outdated (>3 years). Several students mentioned how such reviews were unreliable as many changes would have been made to the module by the time they were taking it. Hence, NUSMODs was not included as a data source for webscrapping in this project.
+
+* NUS subReddit
+Module reviews shown are rather recent (<2 years). New posts are made more frequently as compared to NUSMODs, hence the module reviews are more reliable. Some students pointed out an issue which is that some reviews show high degree of bias, seen by the use of certain high-intensity word phrases to describe the module. While some students prefer objective reviews, having a biased comment is also a way to show the general sentiment surrounding the module. Hence, the NUS subReddit was chosen to be a data source for webscrapping in this project.
+
+#### Data scrapped
+* Text comment - Primary component to use for sentiment analysis by the AI model. Short comments usually do not provide very constructive reviews about the modules. Hence, upon further testing, a minimum length of 8 words must be present in a text body for it to be considered relevant and be scrapped.
+
+* Number of upvotes - A factor used to determine the relevance of a comment. A high number of upvotes can be used to indicate that a particular review resonated well with other users, hence its reliability.
+
+* Date of post - Another factor used to determine the relevance of a comment. A newer post can indicate a 'fresher' and hence, a more reliable review as opposed to an older post. This is based on the assumption that fewer changes can happen to a module in a smaller span of time. However, it is still possible for a drastic change to occur over a single semester of study.
+
+### Relevance Scoring System
+The relevance scoring system(RSS) acts as an extension from the webscrapping component of this project. After the above data have been scrapped from Reddit, a score will be given to a post to help determine its relevance. Refer to the scoring system below:
+
+
+
+### Artificial Intelligent(AI) Model
+The primary function of the AI model was to recognise patterns in a text to determine the sentiment associated with it in the context of a module review. The method used here was the Bag-of-Words(BoW) approach to help convert texts from our dataset into numerical form used for anaysis.
+
+#### Transformers
+* Count Vectorizer
+* Select-K-Best
+* TFID Vectorizer
+
+#### Machine Learning Alogrithm
+Several machine learning algorithms were tested for their accuracy to determine which model was best suited for sentiment analysis in this case study.
+
+### Integrated System Design
+
 ## Getting Started
 
 ### Dependencies
