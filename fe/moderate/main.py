@@ -56,7 +56,7 @@ def SIA_analyse_sent(comments):
 def RFR_AI_model_predict(comments): #input list of strings
     #PATH = "C:/Orbital/Orbital_Moderate/fe/moderate/RFR_model.sav"
     # PATH = 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
-    PATH = 'https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav' # download url
+    #PATH = 'https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav' # download url
     # #model = pickle.load(open(PATH, 'rb'))
     print(os.getcwd())  #print current directory
 

@@ -10,7 +10,7 @@ from sklearn.ensemble import RandomForestRegressor
 import pandas as pd
 import pickle
 
-dataset = pd.read_csv('https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/Comments%20Review%20-%20Sheet1.csv?raw=true')[["Comment","Emotion","Rating"]]
+dataset = pd.read_csv('https://github.com/ZhiQi12/Orbital-/blob/master/model/Comments%20Review%20-%20Sheet1.csv?raw=true')[["Comment","Emotion","Rating"]]
 
 class Model: 
     def __init__(self,trained_model):
