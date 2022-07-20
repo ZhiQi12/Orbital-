@@ -189,8 +189,10 @@ if __name__ == "__main__":
     #print(read_bannedwordsCSV())
     PATH1 = 'https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav'  #download url
     PATH2= 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
-    # print(os.getcwd())
-    model = pickle.load(open('fe/moderate/RFR_model.sav', 'rb'))
+    print(os.getcwd())
+    response = requests.get(PATH1)
+    #open('model.sav', 'wb').write(response.content)
+    #model = pickle.load(open(PATH1, 'rb'))
     #model = cp.load(urlopen(PATH1))
     #print(scrape_posts("ec1101e", nus_sub, 1))
 
