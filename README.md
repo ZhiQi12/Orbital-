@@ -23,30 +23,32 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 ## Features
 
 ### Custom AI Model
-* Transformers such as CountVectorizer and TFIDFTransformer
-* Random Forest Regressor AI Model
-* Trained on Reddit submissions dataset
-* More accurate analysis than a pre-trained model
+* Transformers such as CountVectorizer and TFIDFTransformer.
+* Random Forest Regressor AI Model.
+* Trained on Reddit submissions dataset.
+* More accurate analysis than a pre-trained model.
 
 ### Sentiment Rating
-* Gives a score out of ten (Quantifiable)
-* Easy to compare across different modules
+* Gives a score out of ten (Quantifiable).
+* Easy to compare across different modules.
 
 ### Top 3 comments
-* Display the top 3 most relevant comments about the module
-* Relevance determined by number of upvotes and date posted
-* Acts as references for the user to better understand what others are saying about the module
+* Display the top 3 most relevant comments about the module.
+* Relevance determined by number of upvotes and date posted.
+* Acts as references for the user to better understand what others are saying about the module.
 
 ### Emotion Chart
-* A pie chart used to display the emotions associated with the reviews about the modules
-* Displays for users to understand the breakdown of emotions from all the scraped reviews
+* A pie chart used to display the emotions associated with the reviews about the modules.
+* Displays for users to understand the breakdown of emotions from all the scraped reviews.
 	
 ### View Metrics
 * Sorts and displays the top 3 highest-rated and most-searched module in MODeRATE.
-* To show user which modules are the most popular in MODeRATE
+* To show user which modules are the most popular in MODeRATE.
 
 ### Database Update Scheduling
-* Goes through all modules stored in the database and performs sentiment analysis
+* Goes through all module codes stored in the database and re-performs webscrapping and sentiment analysis.
+* Updates the database of its rating, comments and emotions.
+* Helps increase reliability of the rating by performing regular updates.
 
 ## Design
 
@@ -77,11 +79,11 @@ https://raw.githubusercontent.com/ZhiQi12/Orbital-/master/WebScraping/banned_wor
 ### Relevance Scoring System
 The relevance scoring system(RSS) acts as an extension from the webscrapping component of this project. After the above data have been scrapped from Reddit, a score will be given to a post to help determine its relevance. Refer to the scoring system below:
 
-|Length|Number of Upvotes|Date of Post|
+|Length (words)|Number of Upvotes (Comment)|Date of Post|
 | :--: | :--: | :---: |
-|<table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x < 8</td><td>-</td></tr><tr><td>8<= x <50</td><td>0</td></tr><tr><td>50<= x <100</td><td>1</td></tr><tr><td>100<= x <150</td><td>2</td></tr><tr><td>150<= x <200</td><td>3</td></tr><tr><td>x >=200</td><td>4</td></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>0</td><td>0</td></tr><tr><td>x <= 3</td><td>1</td></tr><tr><td>post_upvote > 10 & x > 0.8*post_upvote</td><td>1</td></tr><tr><td>post_upvote > 10 & x > 0.9*post_upvote</td><td>2</td></tr><tr><td>post_upvote < 10 & x > 3</td><td>2</th></tr><tr><td> 20 <= x < 50</td><td>2</td></tr><tr><td>x >= 50</td><td>3</td></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x >= 3 years</td><td>-</td></tr><tr><td> 5 months <= x < 3 years </td><td>0</td></tr><tr><td> x < 4 months </td><td>1</td></tr> </table>|
+|<table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x < 8 </td><td>-</td></tr><tr><td>8<= x <50 </td><td>0</td></tr><tr><td>50<= x <100 </td><td>1</td></tr><tr><td>100<= x <150 </td><td>2</td></tr><tr><td>150<= x <200 </td><td>3</td></tr><tr><td>x >=200 </td><td>4</td></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>0</td><td>0</td></tr><tr><td>x <= 3</td><td>1</td></tr><tr><td>post_upvote > 10 & x > 0.8 * post_upvote</td><td>1</td></tr><tr><td>post_upvote > 10 & x > 0.9 * post_upvote</td><td>2</td></tr><tr><td>post_upvote < 10 & x > 3</td><td>2</th></tr><tr><td> 20 <= x < 50</td><td>2</td></tr><tr><td>x >= 50</td><td>3</td></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x >= 3 years</td><td>-</td></tr><tr><td> 5 months <= x < 3 years </td><td>0</td></tr><tr><td> x < 4 months </td><td>1</td></tr> </table>|
 
-### Artificial Intelligence(AI) Model
+### Artificial Intelligence Model (Sentiment Analysis)
 The primary function of the AI model was to recognise patterns in a text to determine the sentiment associated with it in the context of a module review. The method used here was the Bag-of-Words(BoW) approach to help convert texts from our dataset into numerical form used for anaysis.
 
 #### Custom Dataset
@@ -139,7 +141,7 @@ PATH = "-path to saved model"
 RFR_model = pickle.load(open(PATH, 'rb')) # Loading
 ```
 
-### Integrated System Design
+### Database Design
 
 #### Database Objects and their Attributes
 |Module|Issue|
@@ -152,7 +154,14 @@ RFR_model = pickle.load(open(PATH, 'rb')) # Loading
 | No. of Times Searched |  |
 | Emotions |  |
 
-#### Flow Chart
+#### Database Update Scheduling
+Extracts all existing module codes from the database. For each module code, perform one round of webscrapping and sentiment analysis. After which, update the database of the new ratings, comments and emotions.
+
+This ensures that users view the most recent (and thus most reliable) rating for that module.
+
+The system automatically performs the update every week at Sunday 00:00.
+
+#### Flow Chart for Integrated System
 <img width="3190" alt="flowchart" src="https://user-images.githubusercontent.com/74350301/175825096-75fdf0ea-309a-4070-844b-d1236cca35a7.png">
 
 ## Getting Started
