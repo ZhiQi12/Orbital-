@@ -40,6 +40,7 @@ def moderate(request):
             mydict["emotions"] = emotion_chart(tpl[0])
             
         except Exception as e:
+            print('error in views.py')
             print(e)
             return render(request, "moderate/error.html", {})
         #comments
