@@ -71,6 +71,7 @@ def RFR_AI_model_predict(comments): #input list of strings
     try:
         ratings = model.predict(comments)
     except Exception as e:
+        print("error in main.py")
         print(e)
 
     return ratings
