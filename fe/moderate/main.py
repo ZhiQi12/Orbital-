@@ -21,7 +21,7 @@ import requests
 from urllib.request import urlopen
 import cloudpickle as cp
 import os
-import ml_model
+import moderate.ml_model
 from ml_model import Model
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
