@@ -11,7 +11,6 @@ from urllib.request import urlopen
 import cloudpickle as cp
 import os
 
-
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
 USER_AGENT = "Orbital"

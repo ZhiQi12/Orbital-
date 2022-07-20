@@ -6,7 +6,6 @@
 # from selenium.webdriver.support import expected_conditions as EC
 # from bs4 import BeautifulSoup
 # import time
-import nltk
 import pandas as pd
 import pickle
 import spacy
@@ -67,8 +66,13 @@ def RFR_AI_model_predict(comments): #input list of strings
     #model = cp.load(urlopen(PATH))
     model = pickle.load(open('RFR_model.sav', 'rb'))
     #file = urllib.request.urlopen(PATH)
+    
     #model = pickle.load(urllib.request.urlopen(PATH))
-    ratings = model.predict(comments)
+    try:
+        ratings = model.predict(comments)
+    except Exception as e:
+        print(e)
+
     return ratings
 
 def text_preprocessing(comments):
