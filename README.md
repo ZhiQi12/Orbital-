@@ -23,27 +23,146 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 ## Features
 
 ### Custom AI Model
-* Transformers such as CountVectorizer and TFIDFTransformer
-* Random Forest Regressor AI Model
-* Trained on Reddit submissions dataset
-* More accurate analysis than a pre-trained model
+* Transformers such as CountVectorizer and TFIDFTransformer.
+* Random Forest Regressor AI Model.
+* Trained on Reddit submissions dataset.
+* More accurate analysis than a pre-trained model.
 
 ### Sentiment Rating
-* Gives a score out of ten (Quantifiable)
-* Easy to compare across different modules
+* Gives a score out of ten (Quantifiable).
+* Easy to compare across different modules.
 
 ### Top 3 comments
-* Display the top 3 most relevant comments about the module
-* Relevance determined by number of upvotes and date posted
-* Acts as references for the user to better understand what others are saying about the module
+* Display the top 3 most relevant comments about the module.
+* Relevance determined by number of upvotes and date posted.
+* Acts as references for the user to better understand what others are saying about the module.
 
 ### Emotion Chart
-* A pie chart used to display the emotions associated with the reviews about the modules
-* Displays for users to understand the breakdown of emotions from all the scraped reviews
+* A pie chart used to display the emotions associated with the reviews about the modules.
+* Displays for users to understand the breakdown of emotions from all the scraped reviews.
 	
 ### View Metrics
 * Sorts and displays the top 3 highest-rated and most-searched module in MODeRATE.
-* To show user which modules are the most popular in MODeRATE
+* To show user which modules are the most popular in MODeRATE.
+
+### Database Update Scheduling
+* Goes through all module codes stored in the database and re-performs web scraping and sentiment analysis.
+* Updates the database of its rating, comments and emotions.
+* Helps increase reliability of the rating by performing regular updates.
+
+## Design
+
+### Webscrapping
+The primary function of the web scraping component is used to extract relevant data from websites to be parsed into our artificial intelligent(AI) model for text analysis. The Python PRAW library, which is an exclusive web scraping tool for Reddit, was used. A few other web scraping tools and libraries such as Selenium and BeautifulSoup were also considered. However, PRAW yielded the best results in terms of time complexity.
+
+#### Websites for Data Source
+A small-scale survey was conducted to determine which websites students would go to to find reviews for modules. Namely, two particular websites were mentioned: NUSMODs and the NUS subReddit.
+
+* NUSMODs
+A significant portion of the module reviews were quite outdated (>3 years). Several students mentioned how such reviews were unreliable as many changes would have been made to the module by the time they were taking it. Hence, NUSMODs was not included as a data source for web scraping in this project.
+
+* NUS subReddit
+Module reviews shown are rather recent (<2 years). New posts are made more frequently as compared to NUSMODs, hence the module reviews are more reliable. Some students pointed out an issue which is that some reviews show high degree of bias, seen by the use of certain high-intensity word phrases to describe the module. While some students prefer objective reviews, having a biased comment is also a way to show the general sentiment surrounding the module. Hence, the NUS subReddit was chosen to be a data source for web scraping in this project.
+
+#### Data scraped
+* Text comment - Primary component to use for sentiment analysis by the AI model. Short comments usually do not provide very constructive reviews about the modules. Hence, upon further testing, a minimum length of 8 words must be present in a text body for it to be considered relevant and be scrapped.
+
+* Number of upvotes - A factor used to determine the relevance of a comment. A high number of upvotes can be used to indicate that a particular review resonated well with other users, hence its reliability.
+
+* Date of post - Another factor used to determine the relevance of a comment. A newer post can indicate a 'fresher' and hence, a more reliable review as opposed to an older post. This is based on the assumption that fewer changes can happen to a module in a smaller span of time. However, it is still possible for a drastic change to occur over a single semester of study.
+
+#### Banned Words
+Helps to filter out irrelevant texts. Posts and comments containing these words/patterns are usually found to be irrelevant. Refer to list of banned words: 
+<br>
+https://raw.githubusercontent.com/ZhiQi12/Orbital-/master/WebScraping/banned_words.csv
+
+### Relevance Scoring System
+The relevance scoring system(RSS) acts as an extension from the web scraping component of this project. After the above data have been scraped from Reddit, a score will be given to a post to help determine its relevance. Refer to the scoring system below:
+
+|Length (words)|Number of Upvotes (Comment)|Date of Post|
+| :--: | :--: | :---: |
+|<table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x < 8 </td><td>-</td></tr><tr><td>8<= x <50 </td><td>0</td></tr><tr><td>50<= x <100 </td><td>1</td></tr><tr><td>100<= x <150 </td><td>2</td></tr><tr><td>150<= x <200 </td><td>3</td></tr><tr><td>x >=200 </td><td>4</td></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>0</td><td>0</td></tr><tr><td>x <= 3</td><td>1</td></tr><tr><td>post_upvote > 10 & x > 0.8 * post_upvote</td><td>1</td></tr><tr><td>post_upvote > 10 & x > 0.9 * post_upvote</td><td>2</td></tr><tr><td>post_upvote < 10 & x > 3</td><td>2</th></tr><tr><td> 20 <= x < 50</td><td>2</td></tr><tr><td>x >= 50</td><td>3</td></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x >= 3 years</td><td>-</td></tr><tr><td> 5 months <= x < 3 years </td><td>0</td></tr><tr><td> x < 4 months </td><td>1</td></tr> </table>|
+
+### Artificial Intelligence Model (Sentiment Analysis)
+The primary function of the AI model was to recognise patterns in a text to determine the sentiment associated with it in the context of a module review. The method used here was the Bag-of-Words(BoW) approach to help convert texts from our dataset into numerical form used for anaysis.
+
+#### Custom Dataset
+To ensure the AI model provides the most accurate predictions, we created our very own custom dataset using reviews on the NUS subReddit and provided our own rating to the comments. The comments were scrapped manually from the NUS subReddit. The ratings ranged from 1 to 10 which was given based on factors such as the intensity of choice of words, nature of comment, length of comment, etc.
+
+Refer to the custom dataset:
+<br>
+https://docs.google.com/spreadsheets/d/1b2lHf4xYJ8It8KscUmsg0Pj9CIuiWi9cyLKumfxGK4w/edit?usp=sharing
+
+#### Transformers
+* Count Vectorizer - Helps to convert a text into tokens (a basic unit such as a word/character/subword which gives useful semantic meaning) used for processing.
+* Select-K-Best - Keeps the k best features while removing the least useful features from the model.
+* TFID Vectorizer - A common term weighting scheme that gives a feature a higher weight the greater the number of times it appears in a document but also a lower weight the greater the number of times it appears across documents.
+
+#### Machine Learning Alogrithm
+Several machine learning algorithms were tested for their accuracy to determine which model was best suited for sentiment analysis in this case study. The testing involves training a model using their respective transformers and ML algorithm on our custom dataset before testing on a series of test cases. The accuracy is given based on how far apart the model prediction rating is from our proposed rating.
+
+Refer to the test cases and tested model results: 
+<br>
+https://docs.google.com/spreadsheets/d/1wbAVXMZ6UNz-A0g9hnvzZnsTtUklKzeyohDvMoLqd8Q/edit#gid=0
+
+#### Model Selection
+The random forest regressor algorithm was chosen after testing.
+<br>
+* Loading the Dataset
+```
+import pandas as pd
+
+dataset = pd.read_csv("Comments Review - Sheet1.csv")[["Comment","Emotion","Rating"]]
+```
+
+* Training the Model
+```
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.ensemble import RandomForestRegressor
+
+RFR = Pipeline([
+    ('count vectorizer', CountVectorizer()),
+    ('chi2score', SelectKBest(chi2,k=50)),
+    ('tf_transformer', TfidfTransformer()),
+    ('regressor', RandomForestRegressor())
+])
+
+model1 = RFR.fit(dataset["Comment"], dataset["Rating"])
+```
+* Saving and Loading the Model
+```
+import pickle
+
+pickle.dump(model1, open("RFR_model.sav", 'wb')) # Saving
+
+PATH = "-path to saved model"
+RFR_model = pickle.load(open(PATH, 'rb')) # Loading
+```
+
+### Database Design
+
+#### Database Objects and their Attributes
+|Module|Issue|
+| :--: | :--: |
+| Code | Code |
+| Rating | Message |
+| Comment1 |  |
+| Comment2 |  |
+| Comment3 |  |
+| No. of Times Searched |  |
+| Emotions |  |
+
+#### Database Update Scheduling
+Extracts all existing module codes from the database. For each module code, perform one round of web scraping and sentiment analysis. After which, update the database of the new ratings, comments and emotions.
+
+This ensures that users view the most recent (and thus most reliable) rating for that module.
+
+The system automatically performs the update every week at Sunday 00:00.
+
+#### Flow Chart for Integrated System
+<img width="3190" alt="flowchart" src="https://user-images.githubusercontent.com/74350301/175825096-75fdf0ea-309a-4070-844b-d1236cca35a7.png">
 
 ## Getting Started
 
@@ -60,7 +179,7 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 * scikit-learn
 * Django
 * pickle
-* spaCy
+* spaCy / en_core_web_sm
 
 ### Installing
 * Create and activate virtual environment
@@ -68,6 +187,9 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 * Install Python Dependencies
 ```
 pip install -r requirements.txt
+```
+```
+python -m spacy download en_core_web_sm
 ```
 
 ### Changing path for files
@@ -112,9 +234,6 @@ http://127.0.0.1:8000/admin/
 7) To use the View Metrics feature, click on *View* using the sidebar which will navigate you to the viewing menu.
 8) Click on *Highest-Rated Mods* or *Most-Searched Mods* to view the respective metrics.
 9) After done using the app, CTRL-BREAK in command prompt to close it.
-
-### Flow Chart
-<img width="3190" alt="flowchart" src="https://user-images.githubusercontent.com/74350301/175825096-75fdf0ea-309a-4070-844b-d1236cca35a7.png">
 
 
 
