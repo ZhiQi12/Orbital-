@@ -7,7 +7,6 @@
 # from bs4 import BeautifulSoup
 # import time
 import nltk
-nltk.download()
 import pandas as pd
 import pickle
 import spacy
