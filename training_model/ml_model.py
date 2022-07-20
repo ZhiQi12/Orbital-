@@ -10,8 +10,8 @@ from sklearn.ensemble import RandomForestRegressor
 import pandas as pd
 import pickle
 
-dataset = pd.read_csv("Comments Review - Sheet1.csv")[["Comment","Emotion","Rating"]]
-
+#dataset = pd.read_csv("Comments Review - Sheet1.csv")[["Comment","Emotion","Rating"]]
+dataset = pd.read_csv('https://github.com/ZhiQi12/Orbital-/blob/master/training_model/Comments%20Review%20-%20Sheet1.csv?raw=true')[["Comment","Emotion","Rating"]]
 def text_preprocess(comments):
     cleaned = []
     nlp = spacy.load("en_core_web_sm")
