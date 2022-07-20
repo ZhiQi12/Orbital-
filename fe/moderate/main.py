@@ -20,6 +20,7 @@ import urllib.request
 import requests
 from urllib.request import urlopen
 import cloudpickle as cp
+import os
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -55,11 +56,13 @@ def RFR_AI_model_predict(comments): #input list of strings
     # PATH = 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
     PATH = 'https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav' # download url
     # #model = pickle.load(open(PATH, 'rb'))
+    print(os.getcwd())  #print current directory
+
     # model = pd.read_spss('https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav')  # download url 
     print(comments)
     
     #model = cp.load(urlopen(PATH))
-    model = pickle.load(open('Orbital-/fe/moderate/RFR_model.sav', 'rb'))
+    model = pickle.load(open('fe/moderate/RFR_model.sav', 'rb'))
     #file = urllib.request.urlopen(PATH)
     #model = pickle.load(urllib.request.urlopen(PATH))
     ratings = model.predict(comments)
