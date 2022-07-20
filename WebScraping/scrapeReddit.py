@@ -9,6 +9,7 @@ import pyreadstat
 import requests
 from urllib.request import urlopen
 import cloudpickle as cp
+import os
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -184,11 +185,11 @@ BANNED_WORDS_FOR_COMMENTS = read_bannedwordsCSV()[1]
 
 # Main function
 if __name__ == "__main__":
-    print(read_bannedwordsCSV())
+    #print(read_bannedwordsCSV())
     PATH1 = 'https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav'  #download url
     PATH2= 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
-
-    #model = pickle.load(open(PATH1, 'rb'))
+    # print(os.getcwd())
+    # model = pickle.load(open('fe/moderate/RFR_model.sav', 'rb'))
     #model = cp.load(urlopen(PATH1))
     #print(scrape_posts("ec1101e", nus_sub, 1))
 
