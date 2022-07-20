@@ -21,7 +21,7 @@ import requests
 from urllib.request import urlopen
 import cloudpickle as cp
 import os
-
+from model.ml_model import Model
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
@@ -63,7 +63,7 @@ def RFR_AI_model_predict(comments): #input list of strings
     print(comments)
     
     #model = cp.load(urlopen(PATH))
-    model = pickle.load(open('model/RFR_model.sav', 'rb'))
+    model = pickle.load(open('fe/moderate/model/RFR_model.sav', 'rb'))
     #file = urllib.request.urlopen(PATH)
     #model = pickle.load(urllib.request.urlopen(PATH))
     ratings = model.predict(comments)
