@@ -69,9 +69,20 @@ Module reviews shown are rather recent (<2 years). New posts are made more frequ
 ### Relevance Scoring System
 The relevance scoring system(RSS) acts as an extension from the webscrapping component of this project. After the above data have been scrapped from Reddit, a score will be given to a post to help determine its relevance. Refer to the scoring system below:
 
+| Criteria | Score |
+| :---: | :---: |
+| x <8  | -  |
+| 8<= x <50  | 0  |
+| 50<= x <100  | 1  |
+| 100<= x <150  | 2  |
+| 150<= x <200  | 3  |
+|  x <=200  | 4  |
 
+|Length|Number of Upvotes|
+|--|--|
+|<table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x < 8</td><td>-</td></tr><tr><th>8<= x <50</th><th>0</th></tr><tr><td>50<= x <100</td><td>1</td></tr><tr><th>100<= x <150</th><th>2</th></tr><tr><td>150<= x <200</td><td>3</td></tr><tr><th>x >=200</th><th>4</th></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>0</td><td>0</td></tr><tr><th>x <= 3</th><th>1</th></tr><tr><th>post_upvote > 10 & x > 0.8*post_upvote</th><th>1</th></tr><tr><th>post_upvote > 10 & x > 0.9*post_upvote</th><th>2</th></tr><tr><th>post_upvote < 10 & x > 3</th><th>2</th></tr><tr><th> 20 <= x < 50</th><th>2</th></tr><tr><th>x >= 50</th><th>3</th></tr> </table>|
 
-### Artificial Intelligent(AI) Model
+### Artificial Intelligence(AI) Model
 The primary function of the AI model was to recognise patterns in a text to determine the sentiment associated with it in the context of a module review. The method used here was the Bag-of-Words(BoW) approach to help convert texts from our dataset into numerical form used for anaysis.
 
 #### Transformers
