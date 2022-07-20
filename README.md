@@ -45,12 +45,15 @@ With MODeRATE, NUS students can have a better gauge on the general sentiment of 
 * Sorts and displays the top 3 highest-rated and most-searched module in MODeRATE.
 * To show user which modules are the most popular in MODeRATE
 
-## Design Principles
+### Database Update Scheduling
+* Goes through all modules stored in the database and performs sentiment analysis
+
+## Design
 
 ### Webscrapping
 The primary function of the webscrapping component is used to extract relevant data from websites to be parsed into our artificial intelligent(AI) model for text analysis. The Python PRAW library, which is an exclusive webscrapping tool for Reddit, was used. A few other webscrapping tools and libraries such as Selenium and BeautifulSoup were also considered. However, PRAW yielded the best results in terms of time complexity.
 
-#### Website choice
+#### Websites for Data Source
 A small-scale survey was conducted to determine which websites students would go to to find reviews for modules. Namely, two particular websites were mentioned: NUSMODs and the NUS subReddit.
 
 * NUSMODs
@@ -66,34 +69,91 @@ Module reviews shown are rather recent (<2 years). New posts are made more frequ
 
 * Date of post - Another factor used to determine the relevance of a comment. A newer post can indicate a 'fresher' and hence, a more reliable review as opposed to an older post. This is based on the assumption that fewer changes can happen to a module in a smaller span of time. However, it is still possible for a drastic change to occur over a single semester of study.
 
+#### Banned Words
+Helps to filter out irrelevant texts. Posts and comments containing these words/patterns are usually found to be irrelevant. Refer to list of banned words: 
+<br>
+https://raw.githubusercontent.com/ZhiQi12/Orbital-/master/WebScraping/banned_words.csv
+
 ### Relevance Scoring System
 The relevance scoring system(RSS) acts as an extension from the webscrapping component of this project. After the above data have been scrapped from Reddit, a score will be given to a post to help determine its relevance. Refer to the scoring system below:
 
-| Criteria | Score |
-| :---: | :---: |
-| x <8  | -  |
-| 8<= x <50  | 0  |
-| 50<= x <100  | 1  |
-| 100<= x <150  | 2  |
-| 150<= x <200  | 3  |
-|  x <=200  | 4  |
-
-|Length|Number of Upvotes|
-|--|--|
-|<table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x < 8</td><td>-</td></tr><tr><th>8<= x <50</th><th>0</th></tr><tr><td>50<= x <100</td><td>1</td></tr><tr><th>100<= x <150</th><th>2</th></tr><tr><td>150<= x <200</td><td>3</td></tr><tr><th>x >=200</th><th>4</th></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>0</td><td>0</td></tr><tr><th>x <= 3</th><th>1</th></tr><tr><th>post_upvote > 10 & x > 0.8*post_upvote</th><th>1</th></tr><tr><th>post_upvote > 10 & x > 0.9*post_upvote</th><th>2</th></tr><tr><th>post_upvote < 10 & x > 3</th><th>2</th></tr><tr><th> 20 <= x < 50</th><th>2</th></tr><tr><th>x >= 50</th><th>3</th></tr> </table>|
+|Length|Number of Upvotes|Date of Post|
+| :--: | :--: | :---: |
+|<table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x < 8</td><td>-</td></tr><tr><td>8<= x <50</td><td>0</td></tr><tr><td>50<= x <100</td><td>1</td></tr><tr><td>100<= x <150</td><td>2</td></tr><tr><td>150<= x <200</td><td>3</td></tr><tr><td>x >=200</td><td>4</td></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>0</td><td>0</td></tr><tr><td>x <= 3</td><td>1</td></tr><tr><td>post_upvote > 10 & x > 0.8*post_upvote</td><td>1</td></tr><tr><td>post_upvote > 10 & x > 0.9*post_upvote</td><td>2</td></tr><tr><td>post_upvote < 10 & x > 3</td><td>2</th></tr><tr><td> 20 <= x < 50</td><td>2</td></tr><tr><td>x >= 50</td><td>3</td></tr> </table>| <table> <tr><th>Criteria</th><th>Score</th></tr><tr><td>x >= 3 years</td><td>-</td></tr><tr><td> 5 months <= x < 3 years </td><td>0</td></tr><tr><td> x < 4 months </td><td>1</td></tr> </table>|
 
 ### Artificial Intelligence(AI) Model
 The primary function of the AI model was to recognise patterns in a text to determine the sentiment associated with it in the context of a module review. The method used here was the Bag-of-Words(BoW) approach to help convert texts from our dataset into numerical form used for anaysis.
 
+#### Custom Dataset
+To ensure the AI model provides the most accurate predictions, we created our very own custom dataset using reviews on the NUS subReddit and provided our own rating to the comments. The comments were scrapped manually from the NUS subReddit. The ratings ranged from 1 to 10 which was given based on factors such as the intensity of choice of words, nature of comment, length of comment, etc.
+
+Refer to the custom dataset:
+<br>
+https://docs.google.com/spreadsheets/d/1b2lHf4xYJ8It8KscUmsg0Pj9CIuiWi9cyLKumfxGK4w/edit?usp=sharing
+
 #### Transformers
-* Count Vectorizer
-* Select-K-Best
-* TFID Vectorizer
+* Count Vectorizer - Helps to convert a text into tokens (a basic unit such as a word/character/subword which gives useful semantic meaning) used for processing.
+* Select-K-Best - Keeps the k best features while removing the least useful features from the model.
+* TFID Vectorizer - A common term weighting scheme that gives a feature a higher weight the greater the number of times it appears in a document but also a lower weight the greater the number of times it appears across documents.
 
 #### Machine Learning Alogrithm
-Several machine learning algorithms were tested for their accuracy to determine which model was best suited for sentiment analysis in this case study.
+Several machine learning algorithms were tested for their accuracy to determine which model was best suited for sentiment analysis in this case study. The testing involves training a model using their respective transformers and ML algorithm on our custom dataset before testing on a series of test cases. The accuracy is given based on how far apart the model prediction rating is from our proposed rating.
+
+Refer to the test cases and tested model results: 
+<br>
+https://docs.google.com/spreadsheets/d/1wbAVXMZ6UNz-A0g9hnvzZnsTtUklKzeyohDvMoLqd8Q/edit#gid=0
+
+#### Model Selection
+The random forest regressor algorithm was chosen after testing.
+<br>
+* Loading the Dataset
+```
+import pandas as pd
+
+dataset = pd.read_csv("Comments Review - Sheet1.csv")[["Comment","Emotion","Rating"]]
+```
+
+* Training the Model
+```
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.ensemble import RandomForestRegressor
+
+RFR = Pipeline([
+    ('count vectorizer', CountVectorizer()),
+    ('chi2score', SelectKBest(chi2,k=50)),
+    ('tf_transformer', TfidfTransformer()),
+    ('regressor', RandomForestRegressor())
+])
+
+model1 = RFR.fit(dataset["Comment"], dataset["Rating"])
+```
+* Saving and Loading the Model
+```
+import pickle
+
+pickle.dump(model1, open("RFR_model.sav", 'wb')) # Saving
+
+PATH = "-path to saved model"
+RFR_model = pickle.load(open(PATH, 'rb')) # Loading
+```
 
 ### Integrated System Design
+
+#### Database Objects and their Attributes
+|Module|Issue|
+| :--: | :--: |
+| Code | Code |
+| Rating | Message |
+| Comment1 |  |
+| Comment2 |  |
+| Comment3 |  |
+| No. of Times Searched |  |
+| Emotions |  |
+
+#### Flow Chart
+<img width="3190" alt="flowchart" src="https://user-images.githubusercontent.com/74350301/175825096-75fdf0ea-309a-4070-844b-d1236cca35a7.png">
 
 ## Getting Started
 
@@ -110,7 +170,7 @@ Several machine learning algorithms were tested for their accuracy to determine 
 * scikit-learn
 * Django
 * pickle
-* spaCy
+* spaCy / en_core_web_sm
 
 ### Installing
 * Create and activate virtual environment
@@ -118,6 +178,9 @@ Several machine learning algorithms were tested for their accuracy to determine 
 * Install Python Dependencies
 ```
 pip install -r requirements.txt
+```
+```
+python -m spacy download en_core_web_sm
 ```
 
 ### Changing path for files
@@ -162,9 +225,6 @@ http://127.0.0.1:8000/admin/
 7) To use the View Metrics feature, click on *View* using the sidebar which will navigate you to the viewing menu.
 8) Click on *Highest-Rated Mods* or *Most-Searched Mods* to view the respective metrics.
 9) After done using the app, CTRL-BREAK in command prompt to close it.
-
-### Flow Chart
-<img width="3190" alt="flowchart" src="https://user-images.githubusercontent.com/74350301/175825096-75fdf0ea-309a-4070-844b-d1236cca35a7.png">
 
 
 
