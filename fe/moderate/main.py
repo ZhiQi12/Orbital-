@@ -62,7 +62,7 @@ def RFR_AI_model_predict(comments): #input list of strings
 
     # model = pd.read_spss('https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav')  # download url 
     print(comments)
-    
+    moderate.ml_model.main()
     #model = cp.load(urlopen(PATH))
     model = pickle.load(open('fe/moderate/RFR_model.sav', 'rb'))
     #file = urllib.request.urlopen(PATH)
