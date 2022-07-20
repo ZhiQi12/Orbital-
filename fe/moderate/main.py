@@ -22,7 +22,7 @@ from urllib.request import urlopen
 import cloudpickle as cp
 import os
 import moderate.ml_model
-from ml_model import Model
+from moderate.ml_model import Model
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
 CLIENT_SECRET = "S__YD99jhRGHnwWjzMFZTDlQeT18RA"
