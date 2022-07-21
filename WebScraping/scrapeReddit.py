@@ -184,5 +184,5 @@ BANNED_WORDS_FOR_COMMENTS = read_bannedwordsCSV()[1]
 
 # Main function
 if __name__ == "__main__":
-    print(scrape_posts("MLE1010", nus_sub, 3))
+    print(scrape_posts("dao1704", nus_sub, 3))
 
