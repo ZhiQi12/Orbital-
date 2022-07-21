@@ -129,7 +129,7 @@ def getComments(post, banned_words):
             # LENGTH SCORING
             if len(comment_body.split())>= 200:
                 score += 4
-                print("plus 4")
+                #print("plus 4")
             elif len(comment_body.split()) < 50:
                 score += 0
             elif len(comment_body.split()) < 100:
