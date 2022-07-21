@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+#import dj_database_url #heroku
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,7 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-#    'whitenoise.middleware.WhiteNoiseMiddleware',
+#    'whitenoise.runserver_nostatic', #heroku
+#    'whitenoise.middleware.WhiteNoiseMiddleware', #heroku
 ]
 
 ROOT_URLCONF = 'fe.urls'
@@ -77,23 +80,26 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
-#     'default' : {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'd1qs0piv989h9i',
-#         'USER': 'hujmkttrbbfzfr',
-#         'PASSWORD': 'ac1b4d1f4f90cc5edb1d4ad1e2efac3be1de81cc739a11847ec7d6ef2388253d',
-#         'HOST': 'ec2-52-205-61-230.compute-1.amazonaws.com',
-#         'PORT': '5432',
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+#db_from_env = dj_database_url.config(conn_max_age=600) #heroku
+#DATABASES['default'].update(db_from_env)    #heroku
+
+DATABASES = {
+    'default' : {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'de50v9qk5i34aj',
+        'USER': 'uepotlvnmcafrr',
+        'PASSWORD': 'b8f85a6804bca72d20eb1cc801bf07193709a3935b3cda56495be6840422baa6',
+        'HOST': 'ec2-54-87-179-4.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
@@ -138,10 +144,12 @@ USE_TZ = True
 #    ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+django_heroku.settings(locals())
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #heroku
 
-#STATICFILES_DIRS = [
-#   os.path.join(BASE_DIR, "static"),
-#   ]
+# STATICFILES_DIRS = [ #heroku
+#    os.path.join(BASE_DIR, "static"),
+#    ]
 
 CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io']
 
