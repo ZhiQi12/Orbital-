@@ -184,11 +184,5 @@ BANNED_WORDS_FOR_COMMENTS = read_bannedwordsCSV()[1]
 
 # Main function
 if __name__ == "__main__":
-    #print(read_bannedwordsCSV())
-    PATH1 = 'https://github.com/ZhiQi12/Orbital-/raw/master/fe/moderate/RFR_model.sav'  #download url
-    PATH2= 'https://github.com/ZhiQi12/Orbital-/blob/master/fe/moderate/RFR_model.sav'
-    print(os.getcwd())
-    model = pickle.load(open('RFR_model.sav', 'rb'))
-    #model = cp.load(urlopen(PATH1))
-    #print(scrape_posts("ec1101e", nus_sub, 1))
+    print(scrape_posts("MLE1010", nus_sub, 3))
 
