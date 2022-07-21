@@ -12,14 +12,10 @@ import spacy
 import string
 import praw
 import sys
-#sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
+sys.path.insert(1, 'C:/Orbital/Orbital_Moderate')
 from WebScraping import scrapeReddit
 from collections import Counter
 import text2emotion as te
-import urllib.request
-import requests
-from urllib.request import urlopen
-import cloudpickle as cp
 import os
 import model.ml_model
 from model.ml_model import Model
