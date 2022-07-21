@@ -80,9 +80,19 @@ def moderate(request):
         #check if mod is in database
         comments = Module.objects.get(code=text)
         mydict["rating"] = getattr(comments, "rating")
+
         mydict["comment1"] = getattr(comments, "comment1")
+        if mydict["comment1"] == "NULL":
+            mydict["comment1"] = ''
+
         mydict["comment2"] = getattr(comments, "comment2")
+        if mydict["comment2"] == "NULL":
+            mydict["comment2"] = ''
+
         mydict["comment3"] = getattr(comments, "comment3")
+        if mydict["comment3"] == "NULL":
+            mydict["comment3"] = ''
+            
         mydict["emotions"] = list(map(float, getattr(comments, "emotions").split(",")))
         Module.objects.filter(code=text).update(searched=
                                                 getattr(comments, "searched") + 1)
