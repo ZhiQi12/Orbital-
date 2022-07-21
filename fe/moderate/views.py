@@ -86,7 +86,6 @@ def moderate(request):
         mydict["emotions"] = list(map(float, getattr(comments, "emotions").split(",")))
         Module.objects.filter(code=text).update(searched=
                                                 getattr(comments, "searched") + 1)
-        return render(request, "moderate/comments.html", mydict)
         
     except Exception as e:
         #perform MODeRATE if not in database
@@ -123,9 +122,9 @@ def moderate(request):
     #                 emotions = convert_emotion_chart_to_str(mydict["emotions"])
     #                 )
     #     mod.save()
-    # global cmod
-    # cmod = text
-    #return render(request, "moderate/comments.html", mydict)
+    global cmod
+    cmod = text
+    return render(request, "moderate/comments.html", mydict)
 
 def view(response):
     return render(response, "moderate/view.html")
