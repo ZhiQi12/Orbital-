@@ -10,66 +10,8 @@ from pandas import *
 def home(response):
     return render(response, "moderate/home.html", {})
 
-# def index(response, code):
-#     ls = Module.objects.filter(code=code)[0]
-#     return render(response, "moderate/list.html", {"ls":ls})
-
 def find(response):
     return render(response, "moderate/find.html")
-
-# def moderate(request):
-#     mydict = {}
-#     text = request.POST.get('mod')
-#     text = text.upper()
-#     mydict["text"] = text
-#     try:
-#         #check if mod is in database
-#         comments = Module.objects.get(code=text)
-#         mydict["rating"] = getattr(comments, "rating")
-#         mydict["comment1"] = getattr(comments, "comment1")
-#         mydict["comment2"] = getattr(comments, "comment2")
-#         mydict["comment3"] = getattr(comments, "comment3")
-#         mydict["emotions"] = list(map(float, getattr(comments, "emotions").split(",")))
-#         Module.objects.filter(code=text).update(searched=
-#                                                 getattr(comments, "searched") + 1)
-#     except:
-#         #perform MODeRATE if not in database
-#         try:
-#             tpl = scrape_n_posts(text, 3)
-#             mydict["rating"] = RFR_avg_rating(tpl[0])
-#             mydict["emotions"] = emotion_chart(tpl[0])
-            
-#         except Exception as e:
-#             print('error in views.py')
-#             print(e)
-#             return render(request, "moderate/error.html", {})
-#         #comments
-#         try:
-#             mydict["comment1"] = tpl[1][0]
-#         except:
-#             mydict["comment1"] = ""
-#         try:
-#             mydict["comment2"] = tpl[1][1]
-#         except:
-#             mydict["comment2"] = ""
-#         try:
-#             mydict["comment3"] = tpl[1][2]
-#         except:
-#             mydict["comment3"] = ""
-
-#         #save into database
-#         mod = Module(code = text, 
-#                     rating = mydict["rating"],
-#                     comment1 = mydict["comment1"],
-#                     comment2 = mydict["comment2"],
-#                     comment3 = mydict["comment3"],
-#                     searched = 1,
-#                     emotions = convert_emotion_chart_to_str(mydict["emotions"])
-#                     )
-#         mod.save()
-#     global cmod
-#     cmod = text
-#     return render(request, "moderate/comments.html", mydict)
 
 def moderate(request):
     mydict = {}
@@ -77,7 +19,7 @@ def moderate(request):
     text = text.upper()
     mydict["text"] = text
     try:
-        #check if mod is in database
+        # check if mod is in database
         comments = Module.objects.get(code=text)
         mydict["rating"] = getattr(comments, "rating")
 
@@ -98,40 +40,9 @@ def moderate(request):
                                                 getattr(comments, "searched") + 1)
         
     except Exception as e:
-        #perform MODeRATE if not in database
-        # try:
-        #     tpl = scrape_n_posts(text, 3)
-        #     mydict["rating"] = RFR_avg_rating(tpl[0])
-        #     mydict["emotions"] = emotion_chart(tpl[0])
-            
-        # except Exception as e:
-        print('error in views.py')
-        print(e)
+        # if not return error page
         return render(request, "moderate/error.html", {})
-    #     #comments
-    #     try:
-    #         mydict["comment1"] = tpl[1][0]
-    #     except:
-    #         mydict["comment1"] = ""
-    #     try:
-    #         mydict["comment2"] = tpl[1][1]
-    #     except:
-    #         mydict["comment2"] = ""
-    #     try:
-    #         mydict["comment3"] = tpl[1][2]
-    #     except:
-    #         mydict["comment3"] = ""
 
-    #     #save into database
-    #     mod = Module(code = text, 
-    #                 rating = mydict["rating"],
-    #                 comment1 = mydict["comment1"],
-    #                 comment2 = mydict["comment2"],
-    #                 comment3 = mydict["comment3"],
-    #                 searched = 1,
-    #                 emotions = convert_emotion_chart_to_str(mydict["emotions"])
-    #                 )
-    #     mod.save()
     global cmod
     cmod = text
     return render(request, "moderate/comments.html", mydict)

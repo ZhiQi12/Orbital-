@@ -30,13 +30,7 @@ nus_sub = create_subreddit(CLIENT_ID, CLIENT_SECRET, USER_AGENT, "nus")
 def read_bannedwordsCSV():
     banned_words = []
     banned_words_for_comments = []
-    # with open("banned_words", 'r') as csvfile:
-    #     csvreader = csv.reader(csvfile)
-    #     fields = next(csvreader)
-    #     print(fields)
-    #data = read_csv("C:/Orbital/Orbital_Moderate/WebScraping/banned_words.csv")
     data = read_csv("https://github.com/ZhiQi12/Orbital-/blob/master/WebScraping/banned_words.csv?raw=true")
-    #moduleCodes = read_csv("C:/Orbital/Orbital_Moderate/mods.csv")["Module Code"].tolist()
 
     banned_words = data["banned_words"].fillna('').tolist()
     banned_words_for_comments = data["banned_words_for_comments"].fillna('').tolist()
@@ -180,7 +174,6 @@ def getComments(post, banned_words):
 BANNED_WORDS_FOR_POSTS = read_bannedwordsCSV()[0]
 BANNED_WORDS_FOR_COMMENTS = read_bannedwordsCSV()[1]
 
-#def getRedditID(url):
 
 # Main function
 if __name__ == "__main__":
