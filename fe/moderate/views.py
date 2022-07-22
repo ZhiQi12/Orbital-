@@ -10,6 +10,7 @@ from pandas import *
 def home(response):
     return render(response, "moderate/home.html", {})
 
+
 def find(response):
     return render(response, "moderate/find.html")
 

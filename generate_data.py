@@ -28,7 +28,7 @@ def scrape_n_posts(mod, n):
 
 def RFR_AI_model_predict(comments): #input list of strings
     #PATH = "C:/Users/Yan Rong/Documents/GitHub/Orbital-/fe/moderate/RFR_model.sav"
-    PATH = "C:\Orbital\Orbital_Moderate\RFR_model.sav"
+    PATH = "RFR_model.sav"
     model = pickle.load(open(PATH, 'rb'))
     ratings = model.predict(comments)
     return ratings
@@ -71,7 +71,7 @@ def emotion_chart(comments):
     emotions_dict = {"Happy": 0.0, "Angry" : 0.0, "Surprise" : 0.0, "Sad" : 0.0, "Fear" : 0.0}
     for comment in comments:
         emotions_dict = merge_dict(emotions_dict, get_emotion_dict(comment))
-        
+
     ec = list(emotions_dict.values())
     final = []
     for e in ec:
@@ -85,7 +85,7 @@ def convert_emotion_chart_to_str(emotions):
     return emo_string[:-1]
 
 
-# main function
+# main function to load the entire csv file
 def update(df, mods):
     counter = 1
     for mod in mods["Module Code"]:
@@ -104,18 +104,41 @@ def update(df, mods):
                 comment3 = tpl[1][2]
             except:
                 comment3 = ""
-            counter += 1
 
             df = df.append({'id':counter,'code':mod, 'rating':RFR_avg_rating(tpl[0]), 'comment1':comment1,
                     'comment2':comment2, 'comment3':comment3, 'searched':0,
                     'emotions':convert_emotion_chart_to_str(emotion_chart(tpl[0]))}, ignore_index=True)
+            counter +=1
         else:
             pass
     return df
+    
+# functin which finds the information for 1 mod
+def singleMod(mod):
+    tpl = scrape_n_posts(mod, 3)
+    if tpl != ([], []):
+        try:
+            comment1 = tpl[1][0]
+        except:
+            comment1 = ""
+        try:
+            comment2 = tpl[1][1]
+        except:
+            comment2 = ""
+        try:
+            comment3 = tpl[1][2]
+        except:
+            comment3 = ""
+        
+    rating = RFR_avg_rating(tpl[0])
+    searched = 0
+    emotions = convert_emotion_chart_to_str(emotion_chart(tpl[0]))
+    return (mod, rating, comment1, comment2, comment3, searched, emotions)
 
 # save df into csv file
 
 if __name__=='__main__':
-    updated_df = update(df, mods)
-    updated_df.to_csv("moderate_mods.csv", index=False)
+    # updated_df = update(df, mods)
+    # updated_df.to_csv("moderate_mods.csv", index=False)
+    print(singleMod('is1103'))
 
