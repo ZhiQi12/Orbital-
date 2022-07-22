@@ -140,5 +140,7 @@ def singleMod(mod):
 if __name__=='__main__':
     # updated_df = update(df, mods)
     # updated_df.to_csv("moderate_mods.csv", index=False)
-    print(singleMod('is1103'))
+    x = singleMod('is1103')
+    with open("test.txt", 'w') as f:
+        f.write(x[2])
 
