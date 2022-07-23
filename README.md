@@ -185,6 +185,23 @@ Link to wireframe: https://www.figma.com/proto/gjBlJgyJ4v2ZEEZJQcWDWW/MODeRATE-W
 
 ### Heroku
 
+## Testing
+Testing was done to ensure correctness of our solution.
+
+### Unit and Integration Testing
+Testing was carried out for the two main components of our solution: web scraping and sentiment analysis. Each component was broken down into smaller basic functions to carry out unit testing. After which, integration testing was done by integrating the smaller basic functions to ensure each component works as intended. Finally, both components were integrated for the final testing.
+
+All unit and integration testing were done using the in-built Django unittest library.
+
+### System and User Testing
+Once both components have been correctly integrated, system testing was done to check for potential errors of the system in each stage of deployment (Django and Heroku).
+
+Finally, potential users were gathered to test the system to check for final bugs and errors.
+
+Link to developer and user testing log: 
+<br>
+https://docs.google.com/spreadsheets/d/1PvtfJL-JlSUcfA14KmbrmRp8Sz-f-ZiZcPWhs7-_Tiw/edit?usp=sharing
+
 ## Getting Started
 
 ### Dependencies
