@@ -19,7 +19,6 @@ In this project, data such as text reviews, number of upvotes and date posted ar
 
 With MODeRATE, NUS students can have a better gauge on the general sentiment of the module before they decide to bid during ModReg. It also allows the faculty to check on how well the module is doing over the semesters as our algorithm updates based on real-time data.
 
-
 ## Features
 
 ### Custom AI Model
@@ -129,13 +128,13 @@ RFR = Pipeline([
     ('regressor', RandomForestRegressor())
 ])
 
-model1 = RFR.fit(dataset["Comment"], dataset["Rating"])
+model = RFR.fit(dataset["Comment"], dataset["Rating"])
 ```
 * Saving and Loading the Model
 ```
 import pickle
 
-pickle.dump(model1, open("RFR_model.sav", 'wb')) # Saving
+pickle.dump(model, open("RFR_model.sav", 'wb')) # Saving
 
 PATH = "-path to saved model"
 RFR_model = pickle.load(open(PATH, 'rb')) # Loading
@@ -159,10 +158,32 @@ Extracts all existing module codes from the database. For each module code, perf
 
 This ensures that users view the most recent (and thus most reliable) rating for that module.
 
-The system automatically performs the update every week at Sunday 00:00.
-
 #### Flow Chart for Integrated System
 <img width="3190" alt="flowchart" src="https://user-images.githubusercontent.com/74350301/175825096-75fdf0ea-309a-4070-844b-d1236cca35a7.png">
+
+## Solution Evaluation
+Usability testing with potential users was done to evaluate and improve on the suitability of the solution. Two different testings were done. The first testing involves a Powerpoint mockup to showcase the basic front-end and back-end designs. The second testing involves a clickable wireframe where potential users can interact with the application in the wireframe. Feedback was gathered after each round of testing with potential users.
+
+### Powerpoint Mockup (Low-fidelity)
+A simple Powerpoint was created to showcase ideas for basic front-end and back-end designs. The Powerpoint was displayed for potential users to view, understand and give feedback on the suitability of our solution.
+#### Front End
+<a href="url"><img src="https://user-images.githubusercontent.com/74350301/180607095-16260f0d-39cd-4649-8bc5-d07130f714d5.png" height="300" width="600" ></a>
+
+#### Back End
+<a href="url"><img src="https://user-images.githubusercontent.com/74350301/180607131-0bfea55f-4315-4bd9-a472-413914f87a28.png" height="300" width="600" ></a>
+<br>
+
+Link to mockup: https://docs.google.com/presentation/d/1frL-iCQV-CSvXogfe4_3n_1mIEyMA_NnTAAqyynRGxg/edit?usp=sharing
+
+### Clickable Wireframe (High-fidelity)
+This is an interactive process where users are able to click on buttons and navigate around the app in the wireframe. This allows potential users to have a better sense of the features of the final prototype.
+Link to wireframe: https://www.figma.com/proto/gjBlJgyJ4v2ZEEZJQcWDWW/MODeRATE-Wireframe?node-id=2%3A2&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=2%3A2
+
+## Deployment
+
+### Django
+
+### Heroku
 
 ## Getting Started
 
