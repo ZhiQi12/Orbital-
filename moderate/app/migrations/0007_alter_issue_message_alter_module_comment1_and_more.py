@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('moderate', '0006_module_emotions'),
+        ('app', '0006_module_emotions'),
     ]
 
     operations = [
