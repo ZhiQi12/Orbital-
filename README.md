@@ -184,7 +184,7 @@ Link to wireframe: https://www.figma.com/proto/gjBlJgyJ4v2ZEEZJQcWDWW/MODeRATE-W
 ### Django
 
 ### Heroku
-Heroku, a cloud platform which manages app deployments with Git, is used to host the web app. After creating a Heroku application, it was linked to this github repository. A Procfile was created which specifies the commands executed by the web app on the Heroku platofrm. The information of the modules (rating, comments, emotions) is stored in Heroku Postgres, which is a managed SQL database service provided directly by Heroku. PGadmin,  a management tool for Postgres, is then used to access and update the Heroku database. 
+Heroku, a cloud platform which manages app deployments with Git, is used to host the web app. After creating a Heroku application, it was linked to this github repository. A Procfile was created which specifies the commands executed by the web app on the Heroku platofrm. The information of the modules (rating, comments, emotions) is stored in Heroku Postgres, which is a managed SQL database service provided directly by Heroku. PGadmin, a management tool for Postgres databases, is then used to access and update the Heroku database. This is done by importing the csv file, updated from re-performing web scraping and sentiment analysis, into the database. 
 
 ## Testing
 Testing was done to ensure correctness of our solution.
