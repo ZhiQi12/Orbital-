@@ -36,6 +36,7 @@ def moderate(request):
         
     except Exception as e:
         # if not return error page
+        print(e)
         return render(request, "moderate/error.html", {})
 
     global cmod
