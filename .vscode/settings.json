@@ -1,6 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./moderate/app/main/WebScraping",
-        "./moderate/app/main"
+        "./moderate/moderateapp/main/WebScraping",
+        "./moderate/moderateapp/main"
     ]
 }
