@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ModerateConfig(AppConfig):
+class ModerateappConfig(AppConfig):
     name = 'moderateapp'
