@@ -288,6 +288,7 @@ For a visual guide on how to use the app, check out this video:
 <br>
 https://www.youtube.com/watch?v=IpdVr33PcLE
 <br>
+
 ## Authors
 
 Contributor names
