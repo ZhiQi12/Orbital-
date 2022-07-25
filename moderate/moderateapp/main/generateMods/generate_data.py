@@ -7,7 +7,7 @@ from WebScraping.scrapeReddit import scrape_posts, nus_sub
 from SentimentAnalysis.sentiment_analysis import *
 
 # load csv and create empty df
-csv_path = 'C:/Orbital/Orbital_Moderate/moderate/app/main/generateMods/moderate_mods.csv'
+csv_path = 'https://github.com/ZhiQi12/Orbital-/blob/master/moderate/moderateapp/main/generateMods/moderate_mods.csv?raw=true'
 mods = pd.read_csv(csv_path)
 df = pd.DataFrame(columns = ["id", "code","rating","comment1","comment2","comment3","searched","emotions"])
 

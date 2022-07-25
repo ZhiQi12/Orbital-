@@ -1,9 +1,7 @@
-import pandas as pd
 import pickle
 import spacy
 import string
 import text2emotion as te
-import os
 
 def RFR_AI_model_predict(comments): #input list of strings
     model = pickle.load(open('C:/Orbital/Orbital_Moderate/moderate/moderateapp/main/SentimentAnalysis/RFR_model.sav', 'rb')) 

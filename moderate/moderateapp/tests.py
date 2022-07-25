@@ -21,7 +21,6 @@ class MyTestCase(TestCase):
         self.mock_comment1.body = "This comment has a banned word so there should only be 1 score"
         self.mock_comment1.created_utc = 1641006000  # 1/1/2022
         self.mock_comment1.score = 3
-        #mock_comment1.replace_more.return_value = mock_comment1
 
         # Mock Comment 2
         self.mock_comment2 = MagicMock()
@@ -35,7 +34,6 @@ class MyTestCase(TestCase):
         '''
         self.mock_comment2.created_utc = 1651374000  #1/5/2022
         self.mock_comment2.score = 9
-        #mock_comment2.replace_more.return_value = mock_comment2
 
         # Mock Comment 3
         self.mock_comment3 = MagicMock()
@@ -139,7 +137,6 @@ class MyTestCase(TestCase):
 
     def test_getComments(self):
         print("test_getComments")
-        #print(scrapeReddit.getComments(self.mock_post1, self.banned_words))
         self.assertTrue(isinstance(scrapeReddit.getComments(self.mock_post1,self.banned_words), dict))
         self.assertTrue(isinstance(scrapeReddit.getComments(self.mock_post2,self.banned_words), dict))
         self.assertEqual(scrapeReddit.getComments(self.mock_post1, self.banned_words)["Score"], [6,4,0,7])
@@ -150,7 +147,6 @@ class MyTestCase(TestCase):
 
         mock_subreddit.search.return_value = [self.mock_post1, self.mock_post2]   # Mock subreddit has 2 mock posts created in SetUp function above
         outcome = scrapeReddit.scrape_posts(self.mod, mock_subreddit, 3)
-        #print(outcome)
         self.assertTrue(isinstance(outcome, tuple))
         self.assertEqual(len(outcome), 2)   # 2 lists in the tuple 
         self.assertEqual(type(outcome[0]), list) 
@@ -192,5 +188,4 @@ class MyTestCase(TestCase):
     def test_system_testing_scraping_sentiment(self):
         pass
 
-#if __name__ == '__main__':
-#    TestCase.main()
+

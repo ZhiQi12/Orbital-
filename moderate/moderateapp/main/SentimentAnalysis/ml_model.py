@@ -1,7 +1,6 @@
 import spacy
 import string
 import pandas as pd
-#RFR MODEL
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
@@ -10,13 +9,12 @@ from sklearn.ensemble import RandomForestRegressor
 import pandas as pd
 import pickle
 
-dataset = pd.read_csv('https://github.com/ZhiQi12/Orbital-/blob/master/model/Comments%20Review%20-%20Sheet1.csv?raw=true')[["Comment","Emotion","Rating"]]
+dataset = pd.read_csv('https://github.com/ZhiQi12/Orbital-/blob/master/moderate/moderateapp/main/SentimentAnalysis/Comments%20Review%20-%20Sheet1.csv?raw=true')[["Comment","Emotion","Rating"]]
 
 class Model: 
     def __init__(self,trained_model):
         self.trained_model = trained_model
 
-#dataset = pd.read_csv("Comments Review - Sheet1.csv")[["Comment","Emotion","Rating"]]
 def text_preprocess(comments):
     cleaned = []
     nlp = spacy.load("en_core_web_sm")
@@ -44,7 +42,6 @@ def main():
     model1 = RFR.fit(text_preprocess(dataset["Comment"]), dataset["Rating"])
     modelObj = Model(model1)
 
-    #pickle.dump(model1, open("RFR_model.sav", 'wb'))
     pickle.dump(modelObj.trained_model, open("RFR_model.sav", 'wb'))
 
 if __name__=='__main__':

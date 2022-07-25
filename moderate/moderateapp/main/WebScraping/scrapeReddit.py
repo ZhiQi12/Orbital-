@@ -1,6 +1,5 @@
 import praw
-import pandas as pd
-from pandas import *
+from pandas import read_csv
 import time
 
 CLIENT_ID = "HJFREmWRT9QTnbohyZup6w"
@@ -16,8 +15,7 @@ nus_sub = create_subreddit(CLIENT_ID, CLIENT_SECRET, USER_AGENT, "nus")
 def read_bannedwordsCSV():
     banned_words = []
     banned_words_for_comments = []
-    data = read_csv("https://github.com/ZhiQi12/Orbital-/blob/master/WebScraping/banned_words.csv?raw=true")
-
+    data = read_csv('https://github.com/ZhiQi12/Orbital-/blob/master/moderate/moderateapp/main/WebScraping/banned_words.csv?raw=true')
     banned_words = data["banned_words"].fillna('').tolist()
     banned_words_for_comments = data["banned_words_for_comments"].fillna('').tolist()
    
