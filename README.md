@@ -19,6 +19,11 @@ In this project, data such as text reviews, number of upvotes and date posted ar
 
 With MODeRATE, NUS students can have a better gauge on the general sentiment of the module before they decide to bid during ModReg. It also allows the faculty to check on how well the module is doing over the semesters as our algorithm updates based on real-time data.
 
+## Prototype
+Link to the working prototype:
+<br>
+https://moderate-app.herokuapp.com/
+
 ## Features
 
 ### Custom AI Model
@@ -105,6 +110,7 @@ Refer to the test cases and tested model results:
 https://docs.google.com/spreadsheets/d/1wbAVXMZ6UNz-A0g9hnvzZnsTtUklKzeyohDvMoLqd8Q/edit#gid=0
 
 #### Model Selection
+#### Creating the Model
 The random forest regressor algorithm was chosen after testing.
 <br>
 * Loading the Dataset
@@ -182,6 +188,7 @@ Link to wireframe: https://www.figma.com/proto/gjBlJgyJ4v2ZEEZJQcWDWW/MODeRATE-W
 ## Deployment
 
 ### Django
+Django is the primary platform used to create the web application. The application is first deployed onto localhost for initial testing and improvements. Django makes use of SQLite and its own database system to store objects created in the application itself.
 
 ### Heroku
 Heroku, a cloud platform which manages app deployments with Git, is used to host the web app. After creating a Heroku application, it was linked to this github repository. A Procfile was created which specifies the commands executed by the web app on the Heroku platofrm. The information of the modules (rating, comments, emotions) is stored in Heroku Postgres, which is a managed SQL database service provided directly by Heroku. PGadmin, a management tool for Postgres databases, is then used to access and update the Heroku database. This is done by importing the csv file, updated from re-performing web scraping and sentiment analysis, into the database. 
@@ -231,9 +238,12 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
-### Changing path for files
-* Navigate to folder fe -> moderate -> main.py, change the file path for line 15 such that it references the folder containing *WebScraping* folder.
-* Navigate to folder fe -> moderate -> main.py, change the file path for line 58 such that it references the file location of *RFR_model.sav*.
+### Changing path for files and other 
+* Navigate to folder moderate -> moderateapp -> main -> generateMods -> generatedata.py, change the file path for line 4 such that it references the folder containing *WebScraping* & *SentimentAnalysis* folder (under main folder).
+* Navigate to folder moderate -> moderateapp -> main -> generateMods -> getAllMods.py, change the file path for line 7 such that it references the folder containing *WebScraping* & *SentimentAnalysis* folder (under main folder).
+* Navigate the folder moderate -> moderateapp -> main -> SentimentAnalysis -> ml_model.py and run the file. 
+* Navigate to folder moderate -> moderateapp -> main -> SentimentAnalysis -> sentiment_analysis.py, change the file path for line 7 such that it references the  RFR.sav file.
+* Navigate to folder moderate -> moderateapp -> test.py, change the file path for line 4 such that it references the folder containing *WebScraping* & *SentimentAnalysis* folder (under main folder).
 
 ### Operating on Django
 * To run the web application using Django, navigate to the folder with *manage.py* file in command prompt and run:
@@ -273,9 +283,10 @@ http://127.0.0.1:8000/admin/
 7) To use the View Metrics feature, click on *View* using the sidebar which will navigate you to the viewing menu.
 8) Click on *Highest-Rated Mods* or *Most-Searched Mods* to view the respective metrics.
 9) After done using the app, CTRL-BREAK in command prompt to close it.
-
-
-
+For a visual guide on how to use the app, check out this video:
+<br>
+https://www.youtube.com/watch?v=IpdVr33PcLE
+<br>
 ## Authors
 
 Contributor names
