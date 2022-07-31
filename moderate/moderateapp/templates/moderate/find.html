@@ -38,23 +38,27 @@
         </div>
     </nav>
     
-    <!--Can be notice that we only include 4mc mods etc-->
+    <!--Can include a notice that we only include 4mc mods etc-->
 
     <!--Enter Module Code section-->
-    <section class="bg-white text-dark p-3 text-center text-sm-start">
-        <div class="container">
-            <div>
-                <h3 class="mb-3 mb-md-0 py-3">
-                    Simply key in the module of your choice and click Submit!
-                </h3>
-    </section>
 
-    <form method="POST" action="comments" class="text-center p-5">
-        {% csrf_token %}
-        <input name = "mod" type="text" autofocus placeholder="Module Code">
-        {% csrf_token %}
-        <input type = "submit" style="background-color: rgb(244, 175, 175); color: rgb(104, 2, 2);">
-    </form>
+    <div class="container p-5">
+        <div>
+            <h3 class="mb-3 mb-md-0 text-center">
+                Simply key in the module of your choice and click Submit!
+            </h3>
+        </div>
+
+        <div>
+            <form method="POST" action="comments" class="text-center p-5">
+                {% csrf_token %}
+                <input name = "mod" type="text" autofocus placeholder="Module Code" class="form-control">
+                {% csrf_token %}
+                <br>
+                <input type = "submit" class="btn btn-danger">
+            </form>
+        </div>
+    </div>
 
     <section class="bg-danger text-light p-1 text-center text-sm-start">
     </section>
