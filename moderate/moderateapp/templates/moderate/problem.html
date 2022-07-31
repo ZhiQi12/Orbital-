@@ -41,9 +41,9 @@
     <!--Error-->
     <form method="POST" action="thankyou" class="text-center p-5">
         {% csrf_token %}
-        <textarea name="problem" rows = "8" cols= "60" autofocus placeholder="Problem Description"></textarea><br>
+        <textarea class="form-control" name="problem" rows = "10" cols= "60" autofocus placeholder="Problem Description"></textarea><br>
         {% csrf_token %}
-        <input type = "submit" style="background-color: rgb(244, 175, 175); color: rgb(104, 2, 2);">
+        <input type = "submit" class="btn btn-dark">
     </form>
 
 
