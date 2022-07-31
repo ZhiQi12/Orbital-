@@ -283,10 +283,12 @@ http://127.0.0.1:8000/admin/
 7) To use the View Metrics feature, click on *View* using the sidebar which will navigate you to the viewing menu.
 8) Click on *Highest-Rated Mods* or *Most-Searched Mods* to view the respective metrics.
 9) After done using the app, CTRL-BREAK in command prompt to close it.
+<br>
 For a visual guide on how to use the app, check out this video:
 <br>
 https://www.youtube.com/watch?v=IpdVr33PcLE
 <br>
+
 ## Authors
 
 Contributor names
