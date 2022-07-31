@@ -1,16 +1,126 @@
-{% extends "moderate/base.html" %}
-{% block title %}Rating List{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel = "stylesheet" href="style.css">
 
-{% block content %}
-<div>
-    <div style="background-color:rgb(243, 252, 128);width:400px">
-        First Mod: <h2>{{first}}</h2> rating: <h2>{{rate1}}</h2>
+    <title>MODeRATE</title>
+</head>
+<body>
+    <!--Navbar Repeated part here-->
+    <nav class="navbar navbar-expand-lg bg-danger navbar-dark py-3">
+        <div class="container">
+            <a href="/home/" class="navbar-brand">MODeRATE</a>
+
+            <button 
+            class="navbar-toggler" 
+            type = "button"
+            data-bs-toggle="collapse" 
+            data-bs-target="#navmenu"
+            >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+            <div class="collapse navbar-collapse" id = "navmenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="/home/" class="nav-link lead">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/find/" class="nav-link lead">Find</a>
+                    </li>
+          
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="bg-white text-warning py-5 text-center">
+        <div class="container">
+            <h2 >
+                Top 3 HIGHEST-RATED MODULES
+                <i class="bi bi-people"></i>
+            </h2>
+        </div>
+    </section>
+
+    <!--Top 3 Highest Rated Modules-->
+    <section class="p-4">
+        <div class="container">
+            <div class="row text-center g-4">
+                    <div class="card text-dark bg-light border-danger border-5">
+                        <div class="card-body text-center">
+                            <h1 class="display-4">
+                                First Module : 
+                                <span class="text-danger"><strong>
+                                    {{first}}
+                                </strong></span>
+                                
+                            </h1>
+                            <h1 class="display-4">
+                                Rating : 
+                                <span class="text-danger"><strong>
+                                    {{rate1}}
+                                </strong></span>
+                            </h1>
+                        </div>
+                    </div>
+
+                <div class="card text-dark bg-light border-danger border-5">
+                        <div class="card-body text-center">
+
+                            <h1 class="display-4">
+                                Second Module : 
+                                <span class="text-danger"><strong>
+                                    {{second}}
+                                </strong></span>
+                                
+                            </h1>
+                            <h1 class="display-4">
+                                Rating : 
+                                <span class="text-danger"><strong>
+                                    {{rate2}}
+                                </strong></span>
+                            </h1>
+
+                        </div>
+                    </div>
+                
+                    <div class="card text-dark bg-light border-danger border-5">
+                        <div class="card-body text-center">
+                            <h1 class="display-4">
+                                Third Module : 
+                                <span class="text-danger"><strong>
+                                    {{third}}
+                                </strong></span>
+                                
+                            </h1>
+                            <h1 class="display-4">
+                                Rating : 
+                                <span class="text-danger"><strong>
+                                    {{rate3}}
+                                </strong></span>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Report Problem Button-->
+    <div class="col-md-12 text-center py-5">
+        <button onclick="location.href = '/problem/'" class="btn btn-dark">
+            Report Problem
+        </button>
     </div>
-    <div style="background-color:rgb(209, 212, 211);width:400px">
-        Second Mod: <h2>{{second}}</h2> rating: <h2>{{rate2}}</h2>
-    </div>
-    <div style="background-color:rgb(245, 170, 40);width:400px">
-        Third Mod: <h2>{{third}}</h2> rating: <h2>{{rate3}}</h2>
-    </div>
-</div>
-{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+
+</html>

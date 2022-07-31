@@ -1,15 +1,55 @@
-{% extends "moderate/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel = "stylesheet" href="style.css">
 
-{% block title %}
-Report Problem
-{% endblock %}
+    <title>MODeRATE</title>
+</head>
+<body>
+    <!--Navbar Repeated part here-->
+    <nav class="navbar navbar-expand-lg bg-danger navbar-dark py-3">
+        <div class="container">
+            <a href="/home/" class="navbar-brand">MODeRATE</a>
 
-{% block content %}
-<h3 style="color:rgb(243, 133, 133)">Report Problem</h3>
-<form method="POST" action="thankyou">
-    {% csrf_token %}
-    <textarea name="problem" rows = "8" cols= "60" autofocus placeholder="Problem Description"></textarea><br>
-    {% csrf_token %}
-    <input type = "submit" style="background-color: rgb(244, 175, 175); color: rgb(104, 2, 2);">
-</form>
-{% endblock %}
+            <button 
+            class="navbar-toggler" 
+            type = "button"
+            data-bs-toggle="collapse" 
+            data-bs-target="#navmenu"
+            >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+            <div class="collapse navbar-collapse" id = "navmenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="/home/" class="nav-link lead">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/find/" class="nav-link lead">Find</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!--Error-->
+    <form method="POST" action="thankyou" class="text-center p-5">
+        {% csrf_token %}
+        <textarea name="problem" rows = "8" cols= "60" autofocus placeholder="Problem Description"></textarea><br>
+        {% csrf_token %}
+        <input type = "submit" style="background-color: rgb(244, 175, 175); color: rgb(104, 2, 2);">
+    </form>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+
+</html>

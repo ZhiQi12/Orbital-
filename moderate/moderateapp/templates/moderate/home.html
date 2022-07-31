@@ -1,16 +1,179 @@
-{% extends 'moderate/base.html' %}
+{% load static %}
 
-{% block title %}
-MODeRATE
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel = "stylesheet" href="style.css">
 
-{% block content %}
-<h2 style="color:rgb(241, 109, 109)">Welcome To Moderate!</h2>
-<h3>How to Use</h3>
-<p>1) Go to Find </p> 
-<p>2) Key in the module code</p>
-<p>3) Hit Submit</p>
+    <title>MODeRATE</title>
+</head>
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg bg-danger navbar-dark py-3">
+        <div class="container">
+            <a href="/home/" class="navbar-brand">MODeRATE</a>
 
-<h3>View</h3>
-<p>Check out the highest-rated and most-searched modules under View!</p>
-{% endblock %}
+            <button 
+            class="navbar-toggler" 
+            type = "button"
+            data-bs-toggle="collapse" 
+            data-bs-target="#navmenu"
+            >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+            <div class="collapse navbar-collapse" id = "navmenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="/home/" class="nav-link lead">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/find/" class="nav-link lead">Find</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--ShowCase-->
+    <section class="bg-light text-dark p-5 text-center text-sm-start">
+        <div class="container">
+            <div class = "d-sm-flex align-items-center justify-content-between">
+                <div p-4>
+                    <h2 class = "text-dark">
+                        Having a hard time deciding which modules to take? 
+                    </h2>
+                    
+                    <h1 class = "text-dark">
+                        
+                        <span class = "text-danger ">
+                            Use MODeRATE!
+                        </span>
+                    </h1>
+                    <p class = "lead my-4 py-4">
+                        <span class = "text-danger"><strong>
+                        MODeRATE, a NUS Module Rating System, 
+                         </span></strong>
+                        aims to consolidate reviews for modules, allowing students to gain greater
+                        insights on the general sentiments of different modules! 
+                    </p>
+                    <button class="btn btn-warning btn-lg" onclick="location.href = '/find/'">
+                        Generate Score Now!
+                    </button>
+                </div>
+                <img class = "img-fluid w-70 d-none d-sm-block rounded-circle" >
+                
+                
+            </div>
+            
+        </div>
+    </section>
+
+    <!--Highest and Most Viewed Modules-->
+    <section class="p-5" id="View">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-md">
+                    <div class="card bg-dark text-light">
+                        <div class="card-body text-center">
+                            <div class="h3 mb-3">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <h4 class="card-title mb-3 text-light">
+                                View Highest-Rated Modules Here!
+                            </h4>
+                            <button class="btn btn-info" onclick="location.href = '/view/rating/'">
+                                View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="card bg-dark text-light">
+                        <div class="card-body text-center">
+                            <div class="h3 mb-3">
+                                <i class="bi bi-bar-chart"></i>
+                            </div>
+                            <h4 class="card-title mb-3 text-light">
+                                View Most-Searched Modules Here!
+                            </h4>
+                            <button class="btn btn-info" onclick="location.href = '/view/searched/'">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!--Learn Sections-->
+    <section class="bg-light text-dark p-5 ">
+        <div class="container">
+            <h2 class = "display-6">
+                Learn More About 
+                <span class = "text-danger"><strong>
+                    MODeRATE
+                </strong>
+                </span> Below!
+                <i class="bi bi-arrow-down"></i>
+            </h2>
+        </div>
+    </section>
+
+    
+    <sections id = "learn" class="p-5">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md">
+                    <img src="images/reddit.png" class = "img-fluid w-70 d-none d-md-block" alt="">
+                </div>
+                <div class="col-md p-5 bg-warning">
+                    <h2 class = "text-light py-4">
+                        Web Scraping
+                    </h2>
+                    <p class = "lead">
+                        From Reddit, data from relevant posts and comments are scraped, such as 
+                        text reviews, number of upvotes and date posted. After cleaning the data,
+                        it is passed into the AI model.
+                        
+                    </p>
+                </div>  
+            </div>
+        </div>
+    </sections>
+
+    <br>
+    <br>
+    <sections id = "learn" class="p-5">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md p-5 bg-warning">
+                    <h2 class = "text-light py-4">
+                        Sentiment Analysis
+                    </h2>
+                    <p class = "lead">
+                        The random forest regressor AI model is used, which is trained on over 200 reddit submissions. 
+                        The model produces a sentiment score for each review parsed into it. All these scores are 
+                        consolidated and refined before a final sentiment rating is given by the model.
+
+                    </p>
+                </div>
+                <div class="col-md">
+                    <img src="images/ml1.png" class = "img-fluid w-40 d-none d-md-block" alt="">
+                </div>
+            </div>
+        </div>
+    </sections>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+
+</html>
