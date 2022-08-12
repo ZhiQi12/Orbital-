@@ -78,7 +78,7 @@ Module reviews shown are rather recent (<2 years). New posts are made more frequ
 #### Banned Words
 Helps to filter out irrelevant texts. Posts and comments containing these words/patterns are usually found to be irrelevant. Refer to list of banned words: 
 <br>
-https://raw.githubusercontent.com/ZhiQi12/Orbital-/master/WebScraping/banned_words.csv
+https://docs.google.com/spreadsheets/d/1qDWTIXs6OG-ylhSFw5aQSslOql06j0qDOihREFv1eWU/edit?usp=sharing
 
 ### Relevance Scoring System
 The relevance scoring system(RSS) acts as an extension from the web scraping component of this project. After the above data have been scraped from Reddit, a score will be given to a post to help determine its relevance. Refer to the scoring system below:
