@@ -54,9 +54,9 @@ https://moderate-app.herokuapp.com/
 * Updates the database of its rating, comments and emotions.
 * Helps increase reliability of the rating by performing regular updates.
 
-## Design
+## System Design
 
-### Webscrapping
+### Web Scraping
 The primary function of the web scraping component is used to extract relevant data from websites to be parsed into our artificial intelligent(AI) model for text analysis. The Python PRAW library, which is an exclusive web scraping tool for Reddit, was used. A few other web scraping tools and libraries such as Selenium and BeautifulSoup were also considered. However, PRAW yielded the best results in terms of time complexity.
 
 #### Websites for Data Source
@@ -110,6 +110,7 @@ Refer to the test cases and tested model results:
 https://docs.google.com/spreadsheets/d/1wbAVXMZ6UNz-A0g9hnvzZnsTtUklKzeyohDvMoLqd8Q/edit#gid=0
 
 #### Model Selection
+<br>
 #### Creating the Model
 The random forest regressor algorithm was chosen after testing.
 <br>
